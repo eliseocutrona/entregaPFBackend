@@ -1,0 +1,45 @@
+[
+    {
+      "id": 1,
+      "title": "Laptop Gamer",
+      "description": "Laptop gamer de alto rendimiento para juegos y tareas exigentes.",
+      "code": "LP001",
+      "price": 1200,
+      "status": true,
+      "stock": 5,
+      "category": "Electrónica",
+      "thumbnails": [
+        "http://example.com/images/laptop1.jpg",
+        "http://example.com/images/laptop2.jpg"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Smartphone Pro",
+      "description": "Smartphone con la mejor cámara y batería de larga duración.",
+      "code": "SP002",
+      "price": 999,
+      "status": true,
+      "stock": 10,
+      "category": "Móviles",
+      "thumbnails": [
+        "http://example.com/images/smartphone1.jpg",
+        "http://example.com/images/smartphone2.jpg"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Auriculares Bluetooth",
+      "description": "Auriculares inalámbricos con cancelación de ruido y alta fidelidad de sonido.",
+      "code": "HB003",
+      "price": 250,
+      "status": true,
+      "stock": 15,
+      "category": "Accesorios",
+      "thumbnails": [
+        "http://example.com/images/headphones1.jpg",
+        "http://example.com/images/headphones2.jpg"
+      ]
+    }
+  ]
+  
