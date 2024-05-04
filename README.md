@@ -57,10 +57,3 @@ Para probar la API, puede utilizar Postman:
 2. Configurar el entorno en Postman con la variable de URL del servidor local (por defecto: `http://localhost:8080`).
 3. Ejecutar las solicitudes deseadas desde Postman.
 
-## Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, lea `CONTRIBUTING.md` para obtener más detalles sobre nuestro código de conducta, y el proceso para enviarnos pull requests.
-
-## Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT - vea el archivo `LICENSE.md` para más detalles.
