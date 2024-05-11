@@ -1,14 +1,25 @@
 <div class="box">
+    <!-- Contenedor principal de la lista de productos -->
     <h1>Productos</h1>
+    <!-- Título de la sección de productos -->
     <div class="products-box">
+        <!-- Contenedor para los productos -->
         {{#each products}}
+            <!-- Itera sobre cada producto en la lista de productos -->
             <div class="product-card">
+                <!-- Tarjeta de producto -->
                 <h3>{{this.title}}</h3>
+                <!-- Título del producto -->
                 <hr>
+                <!-- Línea divisora -->
                 <p>Categoria: {{this.category}}</p>
+                <!-- Categoría del producto -->
                 <p>Descripción: {{this.description}}</p>
+                <!-- Descripción del producto -->
                 <p>Precio: $ {{this.price}}</p>
+                <!-- Precio del producto -->
             </div>
         {{/each}}
+        <!-- Fin del bucle de productos -->
     </div>
 </div>

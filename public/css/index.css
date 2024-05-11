@@ -1,33 +1,33 @@
 * {
-    background-color: black;
-    color: white;
+    background-color: black; /* Establece el color de fondo para todos los elementos */
+    color: white; /* Establece el color del texto para todos los elementos */
 }
 
 hr {
-    width: 100%;
+    width: 100%; /* Establece el ancho de las líneas horizontales al 100% del contenedor */
 }
 
 h3 {
-    text-align: center;
+    text-align: center; /* Centra todos los títulos de nivel 3 */
 }
 
 .box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: flex; /* Usa el modelo de caja flexible para el contenedor */
+    flex-direction: column; /* Establece la dirección de los elementos hijos como columna */
+    justify-content: center; /* Centra verticalmente los elementos hijos */
+    align-items: center; /* Centra horizontalmente los elementos hijos */
 }
 
 .products-box {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: flex; /* Usa el modelo de caja flexible para el contenedor de productos */
+    flex-direction: row; /* Establece la dirección de los elementos hijos como fila */
+    flex-wrap: wrap; /* Permite que los elementos hijos se envuelvan a la siguiente línea si no caben en el contenedor */
 }
 
 .product-card {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid white;
+    display: flex; /* Usa el modelo de caja flexible para la tarjeta de producto */
+    flex-direction: column; /* Establece la dirección de los elementos hijos como columna */
+    padding: 10px; /* Añade relleno alrededor del contenido de la tarjeta */
+    margin: 5px; /* Establece márgenes entre las tarjetas de producto */
+    border: 1px solid white; /* Establece un borde sólido de 1 píxel con color blanco */
 }

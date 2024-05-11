@@ -1,23 +1,23 @@
 import { Router } from 'express';
-import { productManager } from '../managers/productManager.js';
-import { uploader } from '../utils/multerUtil.js';
+import { productManager } from '../managers/productManager.js'; // Importa el gestor de productos
+import { uploader } from '../utils/multerUtil.js'; // Importa el middleware de carga de archivos
 
 const router = Router();
-const ProductService = new productManager('products.json');
+const ProductService = new productManager('products.json'); // Instancia el gestor de productos con el archivo 'products.json'
 
+// Ruta para obtener todos los productos
 router.get('/', async (req, res) => {
-    const result = await ProductService.getAllProducts();
-
+    const result = await ProductService.getAllProducts(); // Obtiene todos los productos
     res.send({
         status: 'success',
         payload: result
     });
 });
 
+// Ruta para obtener un producto por su ID
 router.get('/:pid', async (req, res) => {
-
     try {
-        const result = await ProductService.getProductByID(req.params.pid);
+        const result = await ProductService.getProductByID(req.params.pid); // Obtiene un producto por su ID
         res.send({
             status: 'success',
             payload: result
@@ -30,8 +30,9 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
+// Ruta para crear un nuevo producto
 router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
-
+    // Middleware de carga de archivos: guarda los nombres de archivo de las miniaturas en req.body.thumbnails
     if (req.files) {
         req.body.thumbnails = [];
         req.files.forEach((file) => {
@@ -40,7 +41,7 @@ router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
     }
 
     try {
-        const result = await ProductService.createProduct(req.body);
+        const result = await ProductService.createProduct(req.body); // Crea un nuevo producto con la información proporcionada
         res.send({
             status: 'success',
             payload: result
@@ -53,8 +54,9 @@ router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
     }
 });
 
+// Ruta para actualizar un producto por su ID
 router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
-
+    // Middleware de carga de archivos: guarda los nombres de archivo de las miniaturas en req.body.thumbnails
     if (req.files) {
         req.body.thumbnails = [];
         req.files.forEach((file) => {
@@ -63,7 +65,7 @@ router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
     }
 
     try {
-        const result = await ProductService.updateProduct(req.params.pid, req.body);
+        const result = await ProductService.updateProduct(req.params.pid, req.body); // Actualiza un producto con la información proporcionada
         res.send({
             status: 'success',
             payload: result
@@ -76,10 +78,10 @@ router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
     }
 });
 
+// Ruta para eliminar un producto por su ID
 router.delete('/:pid', async (req, res) => {
-
     try {
-        const result = await ProductService.deleteProduct(req.params.pid);
+        const result = await ProductService.deleteProduct(req.params.pid); // Elimina un producto por su ID
         res.send({
             status: 'success',
             payload: result
@@ -92,4 +94,4 @@ router.delete('/:pid', async (req, res) => {
     }
 });
 
-export default router;
+export default router; // Exporta el enrutador para su uso en la aplicación Express
