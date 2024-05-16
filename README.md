@@ -135,9 +135,6 @@ La persistencia de los datos se realiza utilizando archivos JSON (`products.json
   }
   ```
 
-¡Estos son los pasos para probar tu API en la primera pre-entrega del Proyecto Final utilizando Postman!
-```
-
 
 
 
