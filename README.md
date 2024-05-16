@@ -56,7 +56,7 @@ La persistencia de los datos se realiza utilizando archivos JSON (`products.json
 
 ### Paso a Paso con Postman: Primera Pre-Entrega del Proyecto Final
 
-```
+
 #### 1. Listar todos los productos
 
 - **Método:** GET
