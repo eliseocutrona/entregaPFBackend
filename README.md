@@ -115,6 +115,14 @@ La persistencia de los datos se realiza utilizando archivos JSON (`products.json
 
 - **Método:** POST
 - **URL:** `http://localhost:8080/api/carts/`
+- - **Cuerpo de la solicitud (JSON):**
+  ```json
+  {
+  "id": "1",
+  "products": []
+  }
+  
+  ```
 
 #### 7. Listar los productos en un carrito por su ID
 
