@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { productManager } from '../managers/productManager.js'; // Importa el gestor de productos
 import { uploader } from '../utils/multerUtil.js'; // Importa el middleware de carga de archivos
 
-const router = Router();
+const  router = Router();
 const ProductService = new productManager('products.json'); // Instancia el gestor de productos con el archivo 'products.json'
 
 // Ruta para obtener todos los productos
