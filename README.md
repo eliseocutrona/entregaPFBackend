@@ -1,4 +1,4 @@
-```
+
 # API de Productos y Carritos
 
 Este proyecto implementa un servidor utilizando Node.js y Express para gestionar productos y carritos de compra mediante una API.
@@ -51,4 +51,4 @@ La persistencia de los datos se realiza utilizando archivos JSON (`products.json
 1. Importar la colección de Postman proporcionada.
 2. Configurar el entorno en Postman con la variable de URL del servidor local (por defecto: `http://localhost:8080`).
 3. Ejecutar las solicitudes deseadas desde Postman.
-```
+
