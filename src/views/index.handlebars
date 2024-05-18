@@ -1,0 +1,35 @@
+<div class="box">
+    <!-- Contenedor principal con clase 'box' para agrupar toda la sección de productos -->
+    <h1>Productos</h1>
+    <!-- Encabezado de nivel 1 que titula la sección como "Productos" -->
+    
+    <div class="products-box">
+        <!-- Contenedor para los productos con clase 'products-box' -->
+        
+        {{#each products}}
+        <!-- Inicio de un bloque each de Handlebars para iterar sobre la lista 'products' -->
+        
+            <div class="product-card">
+                <!-- Contenedor individual para cada producto con clase 'product-card' -->
+                
+                <h3>{{this.title}}</h3>
+                <!-- Título del producto, usando la propiedad 'title' del objeto actual en la iteración -->
+                
+                <hr>
+                <!-- Línea horizontal para separar visualmente el título del resto del contenido -->
+                
+                <p>Categoria: {{this.category}}</p>
+                <!-- Párrafo que muestra la categoría del producto, usando la propiedad 'category' del objeto actual -->
+                
+                <p>Descripción: {{this.description}}</p>
+                <!-- Párrafo que muestra la descripción del producto, usando la propiedad 'description' del objeto actual -->
+                
+                <p>Precio: $ {{this.price}}</p>
+                <!-- Párrafo que muestra el precio del producto, usando la propiedad 'price' del objeto actual -->
+            </div>
+            
+        {{/each}}
+        <!-- Fin del bloque each de Handlebars -->
+        
+    </div>
+</div>
