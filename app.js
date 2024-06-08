@@ -1,35 +1,43 @@
 import express from 'express';
-import { engine } from 'express-handlebars'; 
-import path from 'path';
+import handlebars from 'express-handlebars';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { Server } from 'socket.io';
+import mongoose from 'mongoose';
+
 import productRouter from './src/routes/productRouter.js';
 import cartRouter from './src/routes/cartRouter.js';
 import viewsRouter from './src/routes/viewsRouter.js';
-import __dirname from './src/utils/constantsUtil.js';
+import websocket from './websocket.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
-// Configuración de Handlebars
-app.engine('handlebars', engine()); // Asegúrate de usar 'engine' de 'express-handlebars'
-app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, '../views')); // Usar path.join para construir la ruta
+const uri = 'mongodb://127.0.0.1:27017/entrega-final';
+mongoose.connect(uri);
 
-// Middlewares
+//Handlebars Config
+app.engine('handlebars', handlebars.engine());
+app.set('views', `${__dirname}/../views`);
+app.set('view engine', 'handlebars');
+
+//Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../public'))); // Usar path.join para construir la ruta
+app.use(express.static('public'));
 
-// Routers
-app.use('/products', viewsRouter);
-app.use('/api/carts', cartRouter);
+//Routers
 app.use('/api/products', productRouter);
-
-// Middleware para manejar errores
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
+app.use('/api/carts', cartRouter);
+app.use('/', viewsRouter);
 
 const PORT = 8080;
-app.listen(PORT, () => {
-  console.log(`Server started on PORT ${PORT}`);
+const httpServer = app.listen(PORT, () => {
+    console.log(`Start server in PORT ${PORT}`);
 });
+
+const io = new Server(httpServer);
+
+websocket(io);

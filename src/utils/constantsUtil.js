@@ -1,10 +1,12 @@
-import { fileURLToPath } from 'url'; // Importa la función fileURLToPath de la biblioteca url
-import { dirname } from 'path'; // Importa la función dirname de la biblioteca path
+import multer from 'multer';
 
-// Convierte la URL del módulo en una ruta de archivo y asigna a __filename
-const __filename = fileURLToPath(import.meta.url);
-// Obtiene el nombre del directorio del archivo y asigna a __dirname
-const __dirname = dirname(__filename);
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/img');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
 
-// Exporta la variable __dirname, que contiene la ruta del directorio actual del archivo
-export default __dirname;
+export const uploader = multer({storage});
