@@ -1,5 +1,4 @@
 
-
 import productDBManager from './src/dao/productDBManager.js';
 
 
