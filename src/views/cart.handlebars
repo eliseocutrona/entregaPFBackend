@@ -1,14 +1,69 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{title}}</title>
-        <link rel="stylesheet" href="/css/{{style}}">
-    </head>
-    <body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/css/{{ style }}">
+    <style>
+        /* Estilos adicionales específicos para esta vista */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .cart-item {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .product-details {
+            flex: 1;
+            padding-left: 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
-        {{{body}}}
+<div class="container">
+    <h1>{{ title }}</h1>
+    
+    {{#if products.length}}
+        {{#each products}}
+            <div class="cart-item">
+                <div class="product-details">
+                    <h3>{{ this.product.title }}</h3>
+                    <p><strong>Precio:</strong> ${{ this.product.price }}</p>
+                    <p><strong>Cantidad:</strong> {{ this.quantity }}</p>
+                </div>
+            </div>
+        {{/each}}
+    {{else}}
+        <p>No hay productos en el carrito.</p>
+    {{/if}}
 
-    </body>
+    <a href="/" class="button">Seguir comprando</a>
+</div>
+
+</body>
 </html>

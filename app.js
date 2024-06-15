@@ -1,4 +1,5 @@
 import express from 'express';
+
 import handlebars from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -8,7 +9,7 @@ import mongoose from 'mongoose';
 import productRouter from './src/routes/productRouter.js';
 import cartRouter from './src/routes/cartRouter.js';
 import viewsRouter from './src/routes/viewsRouter.js';
-import websocket from './websocket.js';
+import websocket from './src/websocket.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
