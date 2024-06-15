@@ -17,11 +17,8 @@ const __dirname = dirname(__filename);
 const app = express();
 
 // MongoDB connection
-// const uri = 'mongodb+srv://mauricioandres9308:uwQzdhQJeOQZwn3a@cluster0.jmtd4ap.mongodb.net/ecommerce?retryWrites=true&w=majority';
 
-
-
-const uri = 'mongodb+srv://mauricioandres9308:uwQzdhQJeOQZwn3a@cluster0.jmtd4ap.mongodb.net/ecommerce?retryWrites=true&w=majority';
+const uri = "mongodb+srv://eliseocutrona:123@clustercito.zmhrugo.mongodb.net/?retryWrites=true&w=majority&appName=Clustercito";
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected successfully'))
