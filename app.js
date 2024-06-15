@@ -18,7 +18,7 @@ const app = express();
 
 // MongoDB connection
 
-const uri = "mongodb+srv://eliseocutrona:123@clustercito.zmhrugo.mongodb.net/?retryWrites=true&w=majority&appName=Clustercito";
+const uri = "mongodb+srv://eliseocutrona:123@clustercito.zmhrugo.mongodb.net/college?retryWrites=true&w=majority&appName=Clustercito";
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected successfully'))
