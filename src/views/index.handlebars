@@ -1,57 +1,26 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Real-Time Products</title>
-    <script src="/socket.io/socket.io.js"></script>
-    <script defer src="/js/index.js"></script>
-    <script defer src="/js/ecommerce.js"></script>
-
-        <link rel="stylesheet" href="../../public/css/styles.css">
-
-  </head>
-
-  <body>
-
-    <div class="box">
-      <div class="view-cart"><a id="button-cart" class="button">Ver Carrito</a></div>
-      <h1>Productos</h1>
-      <div class="products-box">
+<div class="box">
+    <div class="view-cart"><a id="button-cart" class="button">Ver Carrito</a></div>
+    <h1>Productos</h1>
+    <div class="products-box">
         {{#each products}}
-          <div class="product-card">
-            <h3>{{this.title}}</h3>
-            <hr />
-            <p>Categoria: {{this.category}}</p>
-            <p>Descripción: {{this.description}}</p>
-            <p>Precio: $ {{this.price}}</p>
-            <button
-              id="button-create"
-              onclick="addToCart('{{this._id}}')"
-            >Agregar al Carrito</button>
-          </div>
+            <div class="product-card">
+                <h3>{{this.title}}</h3>
+                <hr>
+                <p>Categoria: {{this.category}}</p>
+                <p>Descripción: {{this.description}}</p>
+                <p>Precio: $ {{this.price}}</p>
+                <button id="button-create" onclick="addToCart('{{this._id}}')">Agregar al Carrito</button>
+            </div>
         {{/each}}
-      </div>
-      <div class="footer">
+    </div>
+    <div class="footer">
         {{#if prevLink.exist}}
-          <a
-            id="button-paginate"
-            class="button"
-            href="{{prevLink.link}}"
-          >Anterior</a>
+            <a id="button-paginate" class="button" href="{{prevLink.link}}">Anterior</a>
         {{/if}}
         {{#if nextLink.exist}}
-          <a
-            id="button-paginate"
-            class="button"
-            href="{{nextLink.link}}"
-          >Siguiente</a>
+            <a id="button-paginate" class="button" href="{{nextLink.link}}">Siguiente</a>
         {{/if}}
-      </div>
     </div>
-    <script src="/js/index.js"></script>
-    {{!-- <script src="/js/ecommerce.js"></script> --}}
-    <script src="../../public/js/ecommerce.js"></script>
+</div>
 
-  </body>
-
-</html>
+<script src="/js/ecommerce.js"></script>
