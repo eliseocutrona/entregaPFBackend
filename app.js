@@ -1,7 +1,7 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 
@@ -15,27 +15,35 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
-const uri = 'mongodb://127.0.0.1:27017/entrega-final';
-mongoose.connect(uri);
+// MongoDB connection
+// const uri = 'mongodb+srv://mauricioandres9308:uwQzdhQJeOQZwn3a@cluster0.jmtd4ap.mongodb.net/ecommerce?retryWrites=true&w=majority';
 
-//Handlebars Config
+
+
+const uri = 'mongodb+srv://mauricioandres9308:uwQzdhQJeOQZwn3a@cluster0.jmtd4ap.mongodb.net/ecommerce?retryWrites=true&w=majority';
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch(err => console.log('MongoDB connection error:', err));
+
+// Handlebars Config
 app.engine('handlebars', handlebars.engine());
-app.set('views', `${__dirname}/../views`);
+app.set('views', join(__dirname, 'src', 'views'));
 app.set('view engine', 'handlebars');
 
-//Middlewares
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static(join(__dirname, 'public')));
 
-//Routers
+// Routers
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use('/', viewsRouter);
 
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
-    console.log(`Start server in PORT ${PORT}`);
+    console.log(`Server started on PORT ${PORT}`);
 });
 
 const io = new Server(httpServer);

@@ -6,6 +6,11 @@ const router = Router();
 const ProductService = new productDBManager();
 const CartService = new cartDBManager(ProductService);
 
+
+router.get('/', (req, res) => {
+    res.render('index'); // Renderiza la vista "index.handlebars"
+});
+
 router.get('/products', async (req, res) => {
     const products = await ProductService.getAllProducts(req.query);
 
@@ -46,7 +51,7 @@ router.get('/cart/:cid', async (req, res) => {
         return res.render(
             'notFound',
             {
-                title: 'Not Found',
+                title: 'not Found',
                 style: 'index.css'
             }
         );
