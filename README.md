@@ -48,14 +48,14 @@ Para iniciar el servidor y probar el funcionamiento, sigue estos pasos:
 
 # Endpoints de la API
 #  Productos
-GET /api/products
+GET `/api/products`
 
 Parámetros opcionales:
 
-limit: Número de elementos a devolver (por defecto 10).
-page: Página a buscar (por defecto 1).
-sort: Ordenar por precio ascendente (asc) o descendente (desc).
-query: Filtro para buscar por categoría o disponibilidad.
+`limit`: Número de elementos a devolver (por defecto 10).
+`page`: Página a buscar (por defecto 1).
+`sort`: Ordenar por precio ascendente (asc) o descendente (desc).
+`query`: Filtro para buscar por categoría o disponibilidad.
 
 Respuesta:
 
@@ -90,6 +90,7 @@ GET `/api/carts/` :  Obtiene todos los productos del carrito con sus detalles co
 
 # Productos
 GET `/products/` : Visualiza todos los productos con su respectiva paginación. Cada producto tiene un botón para agregar al carrito.
+
 GET `/products/` : Visualiza los detalles completos del producto seleccionado, incluyendo un botón para agregar al carrito.
 
 # Carritos
@@ -99,7 +100,7 @@ GET `/carts/:id_productos/` : Visualiza los productos pertenecientes a un carrit
 Para verificar que el servidor y las funcionalidades nuevas funcionan correctamente, sigue estos pasos:
 
 Verifica que el servidor se inicie correctamente y sin errores.
-Accede a la ruta /products para asegurar que se visualice correctamente la lista de productos con paginación.
+Accede a la ruta `/products` para asegurar que se visualice correctamente la lista de productos con paginación.
 Utiliza las rutas de la API para probar las nuevas funcionalidades de gestión de carritos y productos.
 Accede a la ruta `/carts/:cid` para comprobar que los productos se muestran correctamente mediante populate.
 
