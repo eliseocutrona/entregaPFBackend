@@ -48,8 +48,8 @@ Para iniciar el servidor y probar el funcionamiento, sigue estos pasos:
 
 
 
-Endpoints de la API
-Productos
+# Endpoints de la API
+#  Productos
 GET /api/products
 
 Parámetros opcionales:
@@ -61,6 +61,7 @@ query: Filtro para buscar por categoría o disponibilidad.
 
 Respuesta:
 
+  ```bash
 
 {
     "status": "success",
@@ -74,51 +75,50 @@ Respuesta:
     "prevLink": "...",
     "nextLink": "..."
 }
+  ```
 
-Carritos
-DELETE /api/carts/
-/products/
+# Carritos
+DELETE `/api/carts/:id_productos/`
 
 Elimina el producto seleccionado del carrito.
 
-PUT /api/carts/
+PUT `/api/carts/`
 
 Actualiza todos los productos del carrito con un arreglo de productos.
 
-PUT /api/carts/
-/products/
+PUT `/api/carts/:id_products/`
 
 Actualiza la cantidad de ejemplares del producto en el carrito.
 
-DELETE /api/carts/
+DELETE `/api/carts/`
 
 Elimina todos los productos del carrito.
 
-GET /api/carts/
+GET `/api/carts/`
 
 Obtiene todos los productos del carrito con sus detalles completos mediante populate.
 
-Vistas
-Productos
+# Vistas
+# Productos
 GET /products
 
 Visualiza todos los productos con su respectiva paginación. Cada producto tiene un botón para agregar al carrito.
 
-GET /products/
+GET `/products/`
 
 Visualiza los detalles completos del producto seleccionado, incluyendo un botón para agregar al carrito.
 
-Carritos
-GET /carts/
+# Carritos
+
+GET `/carts/:id_productos/`
 
 Visualiza los productos pertenecientes a un carrito específico.
 
-Proceso de Testing
+# Proceso de Testing
 Para verificar que el servidor y las funcionalidades nuevas funcionan correctamente, sigue estos pasos:
 
 Verifica que el servidor se inicie correctamente y sin errores.
 Accede a la ruta /products para asegurar que se visualice correctamente la lista de productos con paginación.
 Utiliza las rutas de la API para probar las nuevas funcionalidades de gestión de carritos y productos.
-Accede a la ruta /carts/:cid para comprobar que los productos se muestran correctamente mediante populate.
-Comentarios
-Permite comentarios en el archivo para facilitar la colaboración y el mantenimiento del código.
+Accede a la ruta `/carts/:cid` para comprobar que los productos se muestran correctamente mediante populate.
+
