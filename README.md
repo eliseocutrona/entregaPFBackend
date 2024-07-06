@@ -46,8 +46,6 @@ Para iniciar el servidor y probar el funcionamiento, sigue estos pasos:
   http://localhost:8080/realtimeproducts
   ```
 
-
-
 # Endpoints de la API
 #  Productos
 GET /api/products
@@ -78,41 +76,24 @@ Respuesta:
   ```
 
 # Carritos
-DELETE `/api/carts/:id_productos/`
+DELETE `/api/carts/:id_productos/` : Elimina el producto seleccionado del carrito.
 
-Elimina el producto seleccionado del carrito.
+PUT `/api/carts/` : Actualiza todos los productos del carrito con un arreglo de productos.
 
-PUT `/api/carts/`
+PUT `/api/carts/:id_products/` : Actualiza la cantidad de ejemplares del producto en el carrito.
 
-Actualiza todos los productos del carrito con un arreglo de productos.
+DELETE `/api/carts/`  : Elimina todos los productos del carrito.
 
-PUT `/api/carts/:id_products/`
-
-Actualiza la cantidad de ejemplares del producto en el carrito.
-
-DELETE `/api/carts/`
-
-Elimina todos los productos del carrito.
-
-GET `/api/carts/`
-
-Obtiene todos los productos del carrito con sus detalles completos mediante populate.
+GET `/api/carts/` :  Obtiene todos los productos del carrito con sus detalles completos mediante populate.
 
 # Vistas
+
 # Productos
-GET /products
-
-Visualiza todos los productos con su respectiva paginación. Cada producto tiene un botón para agregar al carrito.
-
-GET `/products/`
-
-Visualiza los detalles completos del producto seleccionado, incluyendo un botón para agregar al carrito.
+GET `/products/` : Visualiza todos los productos con su respectiva paginación. Cada producto tiene un botón para agregar al carrito.
+GET `/products/` : Visualiza los detalles completos del producto seleccionado, incluyendo un botón para agregar al carrito.
 
 # Carritos
-
-GET `/carts/:id_productos/`
-
-Visualiza los productos pertenecientes a un carrito específico.
+GET `/carts/:id_productos/` : Visualiza los productos pertenecientes a un carrito específico.
 
 # Proceso de Testing
 Para verificar que el servidor y las funcionalidades nuevas funcionan correctamente, sigue estos pasos:
