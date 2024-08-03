@@ -1,6 +1,3 @@
-Aquí tienes una guía detallada para la pre-entrega de tu proyecto final de Backend 2:
-
----
 
 # Pre-entrega de tu Proyecto final Backend 2
 
