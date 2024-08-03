@@ -1,6 +1,50 @@
-# Proyecto de Entrega Final - Segunda Pre-entrega (Websockets)
+Aquí tienes una guía detallada para la pre-entrega de tu proyecto final de Backend 2:
 
-Este proyecto implementa un servidor utilizando Node.js y Express para gestionar productos y carritos de compra mediante una API. Además, integra websockets para la actualización en tiempo real de la lista de productos en la vista "realTimeProducts.handlebars".
+---
+
+# Pre-entrega de tu Proyecto final Backend 2
+
+## Descripción del Proyecto
+
+Se implementará en el proyecto ecommerce facilitado al inicio del curso un CRUD de usuarios, junto con un sistema de autorización y autenticación.
+
+## Requisitos
+
+### 1. Crear un Modelo User
+
+El modelo `User` contará con los siguientes campos:
+
+- `first_name`: String
+- `last_name`: String
+- `email`: String (único)
+- `age`: Number
+- `password`: String (Hash)
+- `cart`: Id con referencia a `Carts`
+- `role`: String (default: 'user')
+
+### 2. Encriptar la Contraseña
+
+Encriptar la contraseña del usuario mediante el paquete `bcrypt` utilizando el método `hashSync`.
+
+### 3. Estrategias de Passport
+
+Desarrollar las estrategias de Passport para que funcionen con el modelo de usuarios.
+
+### 4. Sistema de Login con JWT
+
+Implementar un sistema de login del usuario que trabaje con JWT.
+
+### 5. Estrategia “Current”
+
+Desarrollar una estrategia “current” para extraer la cookie que contiene el token y con dicho token obtener el usuario asociado. En caso de tener el token, devolver al usuario asociado al token; caso contrario, devolver un error de Passport utilizando un extractor de cookie.
+
+### 6. Ruta /current
+
+Agregar al router `/api/sessions/` la ruta `/current`, la cual validará al usuario logueado y devolverá en una respuesta sus datos (asociados al JWT).
+
+## Formato de Entrega
+
+- Link al repositorio de GitHub con el proyecto completo, sin la carpeta de `node_modules`.
 
 ## Configuración del Proyecto
 
@@ -45,9 +89,87 @@ http://localhost:8080/realtimeproducts
 
 ## Proceso de Testing
 
-Para verificar que el servidor y los websockets funcionan correctamente, sigue estos pasos:
+### 1. Configuración Inicial
 
-- Verifica que el servidor se inicie correctamente y sin errores.
-- Accede a la ruta raíz (`http://localhost:8080/products`) y asegúrate de que se visualice correctamente la vista "index.handlebars".
-- A continuación, accede a la ruta de productos en tiempo real (`http://localhost:8080/realtimeproducts`) y comprueba que la consola del servidor muestre un mensaje de "cliente conectado".
-- Observa que se muestre la lista de productos en la vista "realTimeProducts.handlebars" y verifica que se actualice automáticamente cuando se agreguen o eliminen productos.
+Para probar las funcionalidades del proyecto, asegúrate de tener las dependencias instaladas y el servidor en ejecución.
+
+### 2. CRUD de Usuarios
+
+- **Crear Usuario**:
+  Utiliza la siguiente ruta para crear un nuevo usuario:
+  ```
+  POST /api/users
+  ```
+  Ejemplo de cuerpo de solicitud:
+  ```json
+  {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "age": 30,
+    "password": "password123",
+    "cart": "cartId",
+    "role": "user"
+  }
+  ```
+
+- **Obtener Usuarios**:
+  ```
+  GET /api/users
+  ```
+
+- **Actualizar Usuario**:
+  ```
+  PUT /api/users/:id
+  ```
+
+- **Eliminar Usuario**:
+  ```
+  DELETE /api/users/:id
+  ```
+
+### 3. Autenticación y Autorización
+
+- **Registro**:
+  ```
+  POST /api/sessions/register
+  ```
+
+- **Login**:
+  ```
+  POST /api/sessions/login
+  ```
+  Ejemplo de cuerpo de solicitud:
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "password123"
+  }
+  ```
+
+- **Verificación de Usuario Actual**:
+  ```
+  GET /api/sessions/current
+  ```
+
+### 4. Websockets
+
+Para probar las funcionalidades en tiempo real, abre la siguiente URL en tu navegador:
+
+```
+http://localhost:8080/realtimeproducts
+```
+
+## Enlaces Útiles
+
+- [Documentación de bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Documentación de Passport](http://www.passportjs.org/)
+- [Documentación de JWT](https://jwt.io/)
+
+## Video Explicativo
+
+Para más detalles, puedes ver el siguiente [video explicativo](URL_DEL_VIDEO).
+
+---
+
+Asegúrate de reemplazar los placeholders `[URL_DEL_REPOSITORIO]`, `[NOMBRE_DEL_DIRECTORIO]`, y `URL_DEL_VIDEO` con la información correspondiente a tu proyecto.
