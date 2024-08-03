@@ -73,7 +73,7 @@ app.use(passport.initialize());
 
 
 app.use('/',views_Router);
-app.use('/api/sessions',sessionsRouter);
+app.use('/api/sessions',SessionsRouter);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

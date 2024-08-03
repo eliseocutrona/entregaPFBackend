@@ -1,17 +1,18 @@
 import passport from "passport";
-export const passportCall = (strategy) =>{
-    return async(req,res,next)=>{
-        passport.authenticate(strategy,function(error,user,info){
-            //Aquí cae toda la info del "done" de las estrategias.
-            if(error) return next(error);
-            //O me llega el user, o me llega un false
-            //¿Qué significaría que no me llegue el usuario?
-            if(!user){
-                req.user = null;
+
+export const passportCall = (strategy) => {
+    return (req, res, next) => {
+        passport.authenticate(strategy, (error, user, info) => {
+            if (error) {
+                return res.status(500).json({ message: "Internal Server Error", error });
             }
-            //Si sí me llega el user, YO soy el responsable de crear mi req.user
+
+            if (!user) {
+                return res.status(401).json({ message: "Unauthorized", info });
+            }
+
             req.user = user;
             next();
-        })(req,res,next);
-    }
-}
+        })(req, res, next);
+    };
+};

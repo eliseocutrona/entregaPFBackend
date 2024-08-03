@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { ExtractJwt, Strategy as JWTStrategy } from "passport-jwt";
-
 import { usersService } from "../dao/index.js";
 import AuthService from "../services/AuthService.js";
 
@@ -11,7 +10,7 @@ const initializePassportConfig = () => {
         passReqToCallback: true
     }, async (req, email, password, done) => {
         try {
-            const { first_name, last_name, birthDate } = req.body;
+            const { first_name, last_name, age, cart } = req.body;
             if (!first_name || !last_name) {
                 return done(null, false, { message: 'Incomplete values' });
             }
@@ -21,21 +20,17 @@ const initializePassportConfig = () => {
                 return done(null, false, { message: "User already exists" });
             }
 
-            let parsedDate;
-            if (birthDate) {
-                parsedDate = new Date(birthDate).toISOString();
-            }
-
             const authService = new AuthService();
-            const hashedPassword = await authService.hashPassword(password);
+            const hashedPassword = authService.hashPassword(password);
 
             const newUser = {
                 first_name,
                 last_name,
                 email,
-                birthDate: parsedDate,
+                age,
                 password: hashedPassword,
-                role: 'user' // default role
+                cart,
+                role: 'user'
             };
 
             const result = await usersService.createUser(newUser);
