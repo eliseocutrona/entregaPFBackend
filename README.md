@@ -1,5 +1,3 @@
----
-
 # Pre-entrega de tu Proyecto final Backend 2
 
 ## Descripción del Proyecto
