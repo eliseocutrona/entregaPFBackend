@@ -11,6 +11,9 @@ const schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    age: {
+        type: Number
+    },
     email: {
         type:String,
         required:true,
@@ -24,6 +27,10 @@ const schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Carts'
+    },
     role: {
         type:String,
         required:true,
@@ -31,6 +38,8 @@ const schema = new mongoose.Schema({
         default:'user'
     }
 })
+
+
 
 const usersModel = mongoose.model(collection,schema);
 

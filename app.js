@@ -18,6 +18,9 @@ import cookieParser from 'cookie-parser';
 // import sessionsRouter from './src/routes/sessions.router.js';
 
 import SessionsRouter from './src/routes/SessionsRouter.js';
+
+import sessionsRouter from './src/routes/sessions.router.js';
+
 import initializePassportConfig from './src/config/passport.config.js';
 
 
@@ -70,7 +73,7 @@ app.use(passport.initialize());
 
 
 app.use('/',views_Router);
-app.use('/api/sessions',SessionsRouter);
+app.use('/api/sessions',sessionsRouter);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
