@@ -149,24 +149,11 @@ Para probar las funcionalidades del proyecto, asegúrate de tener las dependenci
   GET /api/sessions/current
   ```
 
-### 4. Websockets
-
-Para probar las funcionalidades en tiempo real, abre la siguiente URL en tu navegador:
-
-```
-http://localhost:8080/realtimeproducts
-```
-
 ## Enlaces Útiles
 
 - [Documentación de bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Documentación de Passport](http://www.passportjs.org/)
 - [Documentación de JWT](https://jwt.io/)
 
-## Video Explicativo
 
-Para más detalles, puedes ver el siguiente [video explicativo](URL_DEL_VIDEO).
 
----
-
-Asegúrate de reemplazar los placeholders `[URL_DEL_REPOSITORIO]`, `[NOMBRE_DEL_DIRECTORIO]`, y `URL_DEL_VIDEO` con la información correspondiente a tu proyecto.
