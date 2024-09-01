@@ -1,95 +1,23 @@
-import { Router } from 'express';
-import productDBManager from '../dao/productDBManager.js';
-import { uploader } from '../utils/multerUtil.js';
+import productsController from '../controllers/products.controller.js';
+import BaseRouter from './BaseRouter.js';
+import { authRoles } from '../middlewares/authroles.js';
 
-const router = Router();
-const ProductService = new productDBManager();
+class ProductRouter extends BaseRouter {
+    init() {
+        this.get('/', ['PUBLIC'], productsController.getProducts);
+        this.get('/:id', ['PUBLIC'], productsController.getProductById);
+        this.post('/', ['ADMIN'], authRoles(['ADMIN']), productsController.createProduct);
+        this.put('/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.updateProduct);
+        this.delete('/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.deleteProduct);
 
-router.get('/', async (req, res) => {
-    const result = await ProductService.getAllProducts(req.query);
-
-    res.send({
-        status: 'success',
-        payload: result
-    });
-});
-
-router.get('/:pid', async (req, res) => {
-
-    try {
-        const result = await ProductService.getProductByID(req.params.pid);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
+        // Ruta adicional para /api/products
+        this.get('/api/products', ['PUBLIC'], productsController.getProducts);
+        this.get('/api/products/:id', ['PUBLIC'], productsController.getProductById);
+        this.post('/api/products', ['ADMIN'], authRoles(['ADMIN']), productsController.createProduct);
+        this.put('/api/products/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.updateProduct);
+        this.delete('/api/products/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.deleteProduct);
     }
-});
+}
 
-router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
-
-    if (req.files) {
-        req.body.thumbnails = [];
-        req.files.forEach((file) => {
-            req.body.thumbnails.push(file.path);
-        });
-    }
-
-    try {
-        const result = await ProductService.createProduct(req.body);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
-
-    if (req.files) {
-        req.body.thumbnails = [];
-        req.files.forEach((file) => {
-            req.body.thumbnails.push(file.filename);
-        });
-    }
-
-    try {
-        const result = await ProductService.updateProduct(req.params.pid, req.body);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.delete('/:pid', async (req, res) => {
-
-    try {
-        const result = await ProductService.deleteProduct(req.params.pid);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-export default router;
+const productsRouter = new ProductRouter();
+export default productsRouter.getRouter();

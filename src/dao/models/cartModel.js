@@ -23,4 +23,7 @@ const cartSchema = new mongoose.Schema({
 });
 
 // Creación del modelo Cart utilizando el esquema definido
-export const cartModel = mongoose.model(cartCollection, cartSchema);
+const cartModel = mongoose.model(cartCollection, cartSchema);
+
+// Exportación del modelo Cart
+export default cartModel;

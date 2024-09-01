@@ -1,73 +1,131 @@
-import { Router } from 'express';
-import productDBManager from '../dao/productDBManager.js';
-import { cartDBManager } from '../dao/cartDBManager.js';
+import BaseRouter from './BaseRouter.js';
+import productModel from '../dao/models/productModel.js';
+import cartModel from '../dao/models/cartModel.js';
 
-const router = Router();
-const ProductService = new productDBManager();
-const CartService = new cartDBManager(ProductService);
+class ViewsRouter extends BaseRouter {
+    init() {
+        this.get('/', ['PUBLIC'], (req, res) => {
+            res.render('Home');
+        });
 
-router.get('/', (req, res) => {
-    res.render('index'); // Renderiza la vista "index.handlebars"
-});
+        this.get('/register', ['PUBLIC'], (req, res) => {
+            res.render('Register');
+        });
 
-router.get('/products', async (req, res) => {
-    try {
-        const products = await ProductService.getAllProducts(req.query);
+        this.get('/login', ['PUBLIC'], (req, res) => {
+            res.render('Login');
+        });
 
-        res.render('index', {
-            title: 'Productos',
-            style: 'index.css',
-            products: JSON.parse(JSON.stringify(products.docs)),
-            prevLink: {
-                exist: !!products.prevLink,
-                link: products.prevLink
-            },
-            nextLink: {
-                exist: !!products.nextLink,
-                link: products.nextLink
+        this.get('/profile', ['USER'], (req, res) => {
+            console.log(req.user);
+            if (!req.user) {
+                return res.redirect('/login');
+            }
+            res.render('Profile', { user: req.user });
+        });
+
+        this.get('/current', ['USER'], (req, res) => {
+            if (!req.user) {
+                return res.sendUnauthorized();
+            }
+            res.sendSuccess('User data retrieved successfully', req.user);
+        });
+
+        this.get('/logout', ['USER'], async (req, res) => {
+            res.clearCookie(config.auth.jwt.COOKIE);
+            res.redirect('/');
+        });
+
+        this.get('/products', ['PUBLIC'], async (req, res) => {
+            try {
+                const page = parseInt(req.query.page) || 1;
+                const limit = 10;
+                const skip = (page - 1) * limit;
+
+                const paginationData = await productModel
+                    .find()
+                    .skip(skip)
+                    .limit(limit)
+                    .lean();
+
+                const products = paginationData;
+                const totalCount = await productModel.countDocuments();
+                const totalPages = Math.ceil(totalCount / limit);
+                const hasNextPage = page < totalPages;
+                const hasPrevPage = page > 1;
+                const nextPage = hasNextPage ? page + 1 : null;
+                const prevPage = hasPrevPage ? page - 1 : null;
+
+                res.render('index', {
+                    products,
+                    currentPage: page,
+                    hasNextPage,
+                    hasPrevPage,
+                    nextPage,
+                    prevPage,
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error.message);
+                res.status(500).send('Error fetching products');
             }
         });
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.render('error', { message: 'Error al cargar los productos' });
-    }
-});
 
-router.get('/realtimeproducts', async (req, res) => {
-    try {
-        const products = await ProductService.getAllProducts(req.query);
+        this.get('/products/:pid', ['PUBLIC'], async (req, res) => {
+            const { pid } = req.params;
 
-        res.render('realTimeProducts', {
-            title: 'Productos en Tiempo Real',
-            style: 'index.css',
-            products: JSON.parse(JSON.stringify(products.docs))
+            try {
+                const product = await productModel.findById(pid).lean();
+
+                if (!product) {
+                    return res.render('404');
+                }
+
+                res.render('ProductDetails', {
+                    product,
+                    mainImage: product.thumbnails.find(
+                        (thumbnail) => thumbnail.main
+                    ),
+                });
+            } catch (error) {
+                console.error('Error fetching product details:', error.message);
+                res.render('404');
+            }
         });
-    } catch (error) {
-        console.error('Error al obtener productos en tiempo real:', error);
-        res.render('error', { message: 'Error al cargar los productos en tiempo real' });
-    }
-});
 
-router.get('/cart/:cid', async (req, res) => {
-    try {
-        const response = await CartService.getProductsFromCartByID(req.params.cid);
-
-        if (response.status === 'error') {
-            return res.render('notFound', {
-                title: 'No Encontrado',
-                style: 'index.css'
-            });
-        }
-
-        res.render('cart', {
-            title: 'Carrito',
-            style: 'index.css',
-            products: JSON.parse(JSON.stringify(response.products))
+        this.get('/realtimeproducts', ['PUBLIC'], async (req, res) => {
+            try {
+                const products = await productModel.find().lean();
+                res.render('realTimeProducts', {
+                    title: 'Productos en Tiempo Real',
+                    products,
+                });
+            } catch (error) {
+                console.error('Error al obtener los productos:', error.message);
+                res.status(500).send('Error interno del servidor');
+            }
         });
-    } catch (error) {
-        console.error('Error al obtener el carrito:', error);
-        res.render('error', { message: 'Error al cargar el carrito' });
-    }
-});
 
-export default router;
+        this.get('/carts/:cid', ['USER'], async (req, res) => {
+            const { cid } = req.params;
+
+            try {
+                const cart = await cartModel
+                    .findById(cid)
+                    .populate('products.product')
+                    .lean();
+
+                if (!cart) {
+                    return res.render('404');
+                }
+
+                res.render('cart', { cart });
+            } catch (error) {
+                console.error('Error fetching cart details:', error.message);
+                res.render('404');
+            }
+        });
+    }
+}
+
+const viewsRouter = new ViewsRouter();
+export default viewsRouter.getRouter();

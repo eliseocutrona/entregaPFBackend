@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { passportCall } from "../middlewares/passportCall.js";
+
+import sessionsController from '../controllers/sessions.controller.js';
 import BaseRouter from "./BaseRouter.js";
 
 class SessionsRouter extends BaseRouter {
@@ -16,9 +18,8 @@ class SessionsRouter extends BaseRouter {
                     role: req.user.role,
                     id: req.user._id
                 };
-                const token = jwt.sign(sessionUser, process.env.JWT_SECRET || 'secretitoshhhhh', { expiresIn: '1d' });
-                res.cookie('tokencito', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' })
-                   .send({ status: "success", message: "Logged in" });
+                const token = jwt.sign(sessionUser,'secretitoshhhhh',{expiresIn:'1d'});
+                res.cookie('tokencito',token).send({status:"success",message:"logged in"});
             } catch (error) {
                 console.error('Login error:', error);
                 res.status(500).send({ status: "error", error: "Internal Server Error" });

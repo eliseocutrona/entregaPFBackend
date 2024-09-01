@@ -1,5 +1,5 @@
 // Importamos el modelo de producto
-import productModel from "./models/productModel.js";
+import productModel from "../models/productModel.js";
 
 // Definimos la clase `productDBManager` para gestionar las operaciones relacionadas con los productos
 class productDBManager {
