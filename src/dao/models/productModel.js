@@ -1,48 +1,26 @@
-// Importamos Mongoose y el plugin de paginación de Mongoose
-import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2";
+import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-// Definimos el nombre de la colección de productos en la base de datos
-const productCollection = "products";
+const collection = 'Products';
 
-// Definimos el esquema de productos
-const productSchema = mongoose.Schema({
-    title: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    description: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    code: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    price: {
-        type: Number,     // Tipo de dato: número
-        require: true     // Campo requerido
-    },
-    stock: {
-        type: Number,     // Tipo de dato: número
-        require: true     // Campo requerido
-    },
-    category: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    thumbnails: {
-        type: Array,      // Tipo de dato: arreglo
-        require: false,   // Campo no requerido
-        default: []       // Valor por defecto: arreglo vacío
-    }
+const thumbnailSchema = new mongoose.Schema({
+  mimetype: String,
+  path: String,
+  main: Boolean,
 });
 
-// Añadimos el plugin de paginación al esquema de productos
-productSchema.plugin(mongoosePaginate);
+const schema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  code: { type: String, required: true, unique: true },
+  price: { type: Number, required: true },
+  stock: { type: Number, required: true },
+  category: { type: String, required: true },
+  thumbnails: [thumbnailSchema],
+});
 
-// Creamos el modelo de productos usando el esquema y la colección definidos
-const ProductModel = mongoose.model(productCollection, productSchema);
+schema.plugin(mongoosePaginate);
 
-// Exportamos el modelo de productos para usarlo en otras partes del proyecto
-export default ProductModel;
+const productModel = mongoose.model(collection, schema);
+
+export default productModel;

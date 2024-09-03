@@ -9,4 +9,10 @@ const storage = multer.diskStorage({
     }
 });
 
+export const ROLES = {
+    ADMIN: 'admin',
+    USER: 'user',
+    // Puedes agregar más roles aquí si es necesario
+};
+
 export const uploader = multer({storage});

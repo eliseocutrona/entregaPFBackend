@@ -1,6 +1,6 @@
 import ticketModel from '../models/ticket.model.js';
 
-class ticketDBManager {
+class TicketDAO {
     async createTicket(ticketData) {
         try {
             const newTicket = new ticketModel(ticketData);
@@ -30,4 +30,4 @@ class ticketDBManager {
     }
 }
 
-export default new ticketDBManager();
+export default new TicketDAO();

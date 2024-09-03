@@ -1,6 +1,6 @@
 import usersModel from '../models/user.model.js';
 
-class UserDBManager { // Cambia a PascalCase para seguir la convención de clases
+class UsersDAO {
     getAll() {
         return usersModel.find({});
     }
@@ -26,4 +26,4 @@ class UserDBManager { // Cambia a PascalCase para seguir la convención de clase
     }
 }
 
-export default UserDBManager; // Exporta la clase, no la instancia
+export default new UsersDAO();

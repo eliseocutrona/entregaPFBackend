@@ -1,0 +1,66 @@
+/* Estilos globales */
+* {
+    background-color: #f4f4f4; /* Fondo claro para toda la página */
+    color: #333; /* Color de texto oscuro para un buen contraste */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif; /* Fuente sencilla y legible */
+}
+
+/* Contenedores y flexbox */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem; /* Espaciado alrededor del contenido */
+}
+
+/* Estilo del título del perfil */
+.profile-title {
+    font-size: 2rem; /* Tamaño del encabezado */
+    margin-bottom: 1rem; /* Espaciado inferior */
+    color: #ff5722; /* Color naranja para el título */
+    text-align: center; /* Centramos el título */
+}
+
+/* Estilo de la tarjeta del perfil */
+.profile-card {
+    background-color: #ffffff; /* Fondo blanco para la tarjeta */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 2rem; /* Espaciado interior */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    margin-top: 1rem; /* Espaciado superior */
+}
+
+/* Estilos de la información del perfil */
+.profile-info p {
+    margin-bottom: 1rem; /* Espaciado inferior entre párrafos */
+    font-size: 1rem; /* Tamaño de fuente adecuado para los detalles */
+}
+
+.profile-info strong {
+    color: #666; /* Color gris para las etiquetas */
+}
+
+/* Estilo del botón de logout */
+#button-logout {
+    display: block;
+    width: 100%;
+    padding: 12px 20px; /* Tamaño adecuado para el botón */
+    border-radius: 5px;
+    background-color: #f44336; /* Rojo para el botón de logout */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+#button-logout:hover {
+    background-color: #d32f2f; /* Rojo oscuro para el hover */
+    transform: scale(1.05); /* Efecto de elevación al pasar el mouse */
+}

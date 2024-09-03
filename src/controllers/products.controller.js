@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import ProductDAO from '../dao/mongo/productDBManager.js';
+import ProductDAO from '../dao/mongo/ProductDAO.js';
 
 const getProducts = async (req, res) => {
     try {

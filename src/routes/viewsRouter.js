@@ -1,4 +1,5 @@
 import BaseRouter from './BaseRouter.js';
+
 import productModel from '../dao/models/productModel.js';
 import cartModel from '../dao/models/cartModel.js';
 
@@ -17,7 +18,7 @@ class ViewsRouter extends BaseRouter {
         });
 
         this.get('/profile', ['USER'], (req, res) => {
-            console.log(req.user);
+            console.log('User:', req.user); // Verifica qué usuario está disponible
             if (!req.user) {
                 return res.redirect('/login');
             }
@@ -41,13 +42,13 @@ class ViewsRouter extends BaseRouter {
                 const page = parseInt(req.query.page) || 1;
                 const limit = 10;
                 const skip = (page - 1) * limit;
-
+        
                 const paginationData = await productModel
                     .find()
                     .skip(skip)
                     .limit(limit)
                     .lean();
-
+        
                 const products = paginationData;
                 const totalCount = await productModel.countDocuments();
                 const totalPages = Math.ceil(totalCount / limit);
@@ -55,8 +56,8 @@ class ViewsRouter extends BaseRouter {
                 const hasPrevPage = page > 1;
                 const nextPage = hasNextPage ? page + 1 : null;
                 const prevPage = hasPrevPage ? page - 1 : null;
-
-                res.render('index', {
+        
+                res.render('Products', {
                     products,
                     currentPage: page,
                     hasNextPage,
@@ -66,9 +67,10 @@ class ViewsRouter extends BaseRouter {
                 });
             } catch (error) {
                 console.error('Error fetching products:', error.message);
-                res.status(500).send('Error fetching products');
+                res.status(500).render('500', { message: 'Error fetching products' }); // Renderiza una vista de error general
             }
         });
+        
 
         this.get('/products/:pid', ['PUBLIC'], async (req, res) => {
             const { pid } = req.params;
@@ -95,7 +97,7 @@ class ViewsRouter extends BaseRouter {
         this.get('/realtimeproducts', ['PUBLIC'], async (req, res) => {
             try {
                 const products = await productModel.find().lean();
-                res.render('realTimeProducts', {
+                res.render('RealTimeProducts', {
                     title: 'Productos en Tiempo Real',
                     products,
                 });
@@ -118,7 +120,7 @@ class ViewsRouter extends BaseRouter {
                     return res.render('404');
                 }
 
-                res.render('cart', { cart });
+                res.render('Cart', { cart });
             } catch (error) {
                 console.error('Error fetching cart details:', error.message);
                 res.render('404');

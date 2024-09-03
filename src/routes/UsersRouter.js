@@ -1,7 +1,12 @@
-import * as usersController from '../controllers/user.controller.js'; // Debe ser esta ruta si 'users.controller.js' está en 'controllers'
+
+import { authRoles } from '../middlewares/authroles.js';
+
 import BaseRouter from './BaseRouter.js';
-import { authRoles } from '../middlewares/authRoles.js';
+import usersController from '../controllers/user.controller.js';
+
 import UserDTOSession from '../dto/user/UserDTOSession.js';
+
+
 
 class UsersRouter extends BaseRouter {
     init() {

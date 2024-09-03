@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { passportCall } from "../middlewares/passportCall.js";
-import { executePolicies } from "../middlewares/policies.js";
+import { Router } from 'express';
+import { passportCall } from '../middlewares/passportCall.js';
+import { executePolicies } from '../middlewares/policies.js';
 
 export default class BaseRouter {
     constructor() {
@@ -8,47 +8,32 @@ export default class BaseRouter {
         this.init();
     }
 
-    // Método para ser sobrescrito por las clases hijas para definir rutas
     init() {}
 
-    // Retorna el enrutador configurado
     getRouter() {
         return this.router;
     }
 
-    // Agrega una ruta GET al enrutador
     get(path, policies, ...callbacks) {
-        if (!Array.isArray(policies)) {
-            throw new Error(`Policies required for endpoint ${path}`);
-        }
-        this.router.get(path, this.generateCustomResponses, passportCall('current'), executePolicies(policies), this.applyCallbacks(callbacks));
+        if (!policies || !Array.isArray(policies)) throw new Error('Policies required for endpoint ' + path);
+        this.router.get(path, this.generateCustomResponses, ...this.applyMiddleware(policies), ...this.applyCallbacks(callbacks));
     }
 
-    // Agrega una ruta POST al enrutador
     post(path, policies, ...callbacks) {
-        if (!Array.isArray(policies)) {
-            throw new Error(`Policies required for endpoint ${path}`);
-        }
-        this.router.post(path, this.generateCustomResponses, passportCall('current'), executePolicies(policies), this.applyCallbacks(callbacks));
+        if (!policies || !Array.isArray(policies)) throw new Error('Policies required for endpoint ' + path);
+        this.router.post(path, this.generateCustomResponses, ...this.applyMiddleware(policies), ...this.applyCallbacks(callbacks));
     }
 
-    // Agrega una ruta PUT al enrutador
     put(path, policies, ...callbacks) {
-        if (!Array.isArray(policies)) {
-            throw new Error(`Policies required for endpoint ${path}`);
-        }
-        this.router.put(path, this.generateCustomResponses, passportCall('current'), executePolicies(policies), this.applyCallbacks(callbacks));
+        if (!policies || !Array.isArray(policies)) throw new Error('Policies required for endpoint ' + path);
+        this.router.put(path, this.generateCustomResponses, ...this.applyMiddleware(policies), ...this.applyCallbacks(callbacks));
     }
 
-    // Agrega una ruta DELETE al enrutador
     delete(path, policies, ...callbacks) {
-        if (!Array.isArray(policies)) {
-            throw new Error(`Policies required for endpoint ${path}`);
-        }
-        this.router.delete(path, this.generateCustomResponses, passportCall('current'), executePolicies(policies), this.applyCallbacks(callbacks));
+        if (!policies || !Array.isArray(policies)) throw new Error('Policies required for endpoint ' + path);
+        this.router.delete(path, this.generateCustomResponses, ...this.applyMiddleware(policies), ...this.applyCallbacks(callbacks));
     }
 
-    // Genera respuestas personalizadas para el enrutador
     generateCustomResponses(req, res, next) {
         res.sendSuccess = (message) => res.status(200).send({ status: "success", message });
         res.sendBadRequest = (reason) => res.status(400).send({ status: "error", error: reason });
@@ -62,15 +47,30 @@ export default class BaseRouter {
         next();
     }
 
-    // Aplica los callbacks a las rutas
+    applyMiddleware(policies) {
+       
+        return [
+
+            
+            passportCall('current'), // Ensure user is authenticated
+            executePolicies(policies) // Apply route-specific policies
+        ];
+    }
+
     applyCallbacks(callbacks) {
-        return callbacks.map((callback) => async (req, res, next) => {
-            try {
-                await callback(req, res, next);
-            } catch (error) {
-                console.error(error);
-                res.status(500).send({ status: "error", error: `${error.name} ${error.message}` });
+        return callbacks.map((callback) => {
+            if (typeof callback !== 'function') {
+                throw new Error('Callback must be a function');
             }
+            return async (...params) => {
+                try {
+                    await callback.apply(this, params);
+                } catch (error) {
+                    console.error(error);
+                    params[1].status(500).send({ status: "error", error: `${error.name} ${error.message}` });
+                }
+            };
         });
     }
+    
 }

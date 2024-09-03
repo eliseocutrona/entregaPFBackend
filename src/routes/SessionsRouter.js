@@ -1,52 +1,41 @@
-import jwt from 'jsonwebtoken';
-import { passportCall } from "../middlewares/passportCall.js";
-
+import BaseRouter from './BaseRouter.js';
+import { passportCall } from '../middlewares/passportCall.js';
+import { executePolicies } from '../middlewares/policies.js';
 import sessionsController from '../controllers/sessions.controller.js';
-import BaseRouter from "./BaseRouter.js";
 
 class SessionsRouter extends BaseRouter {
     init() {
-        this.post('/register', ['PUBLIC'], passportCall('register'), (req, res) => {
-            res.sendSuccess("Registered");
-        });
+        // Ruta de registro (Pública, sin autenticación requerida)
+        this.post(
+            '/register',
+            ['PUBLIC'],
+            sessionsController.register // Callback para manejar el registro
+        );
 
-        this.post('/login', ['PUBLIC'], passportCall('login'), (req, res) => {
-            try {
-                console.log(req.user);
-                const sessionUser = {
-                    name: `${req.user.first_name} ${req.user.last_name}`,
-                    role: req.user.role,
-                    id: req.user._id
-                };
-                const token = jwt.sign(sessionUser,'secretitoshhhhh',{expiresIn:'1d'});
-                res.cookie('tokencito',token).send({status:"success",message:"logged in"});
-            } catch (error) {
-                console.error('Login error:', error);
-                res.status(500).send({ status: "error", error: "Internal Server Error" });
-            }
-        });
+        // Ruta de inicio de sesión (Pública, sin autenticación requerida)
+        this.post(
+            '/login',
+            ['PUBLIC'],
+            sessionsController.login // Callback para manejar el inicio de sesión
+        );
 
-        this.get('/current', ['USER'], passportCall('current'), (req, res) => {
-            try {
-                if (!req.user) {
-                    return res.status(401).send({ status: "error", error: "Not logged in" });
-                }
-                res.sendSuccess(req.user);
-            } catch (error) {
-                console.error('Current user error:', error);
-                res.status(500).send({ status: "error", error: "Internal Server Error" });
-            }
-        });
+        // Ruta para obtener datos del usuario actual (Requiere autenticación de usuario)
+        this.get(
+            '/current',
+            ['USER'],
+            passportCall('current'), // Middleware para autenticación
+            executePolicies(['USER']), // Middleware para políticas
+            sessionsController.current // Callback para manejar la solicitud
+        );
 
-        this.post('/logout', ['USER'], (req, res) => {
-            try {
-                res.clearCookie('tokencito');
-                res.sendSuccess("Logged out");
-            } catch (error) {
-                console.error('Logout error:', error);
-                res.status(500).send({ status: "error", error: "Internal Server Error" });
-            }
-        });
+        // Ruta para cerrar sesión (Requiere autenticación de usuario)
+        this.get(
+            '/logout',
+            ['USER'],
+            passportCall('current'), // Middleware para autenticación
+            executePolicies(['USER']), // Middleware para políticas
+            sessionsController.logout // Callback para manejar la solicitud
+        );
     }
 }
 

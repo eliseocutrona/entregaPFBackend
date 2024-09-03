@@ -1,7 +1,6 @@
-import UserDBManager from '../dao/mongo/userDBManager.js';
 import UserDTOSession from '../dto/user/UserDTOSession.js';
 
-const usersDAO = new UserDBManager(); // Crear una instancia de UserDBManager
+import UserDAO from '../dao/mongo/UsersDAO.js';
 
 const getUsers = async (req, res) => {
     try {

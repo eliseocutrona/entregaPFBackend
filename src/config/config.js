@@ -18,6 +18,14 @@ config({
             : './.env.prod',
 });
 
+console.log('Loaded environment variables:', {
+    PORT: process.env.PORT,
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+    MONGO_URL: process.env.MONGO_URL,
+    JWT_COOKIE: process.env.JWT_COOKIE,
+    JWT_SECRET: process.env.JWT_SECRET,
+});
+
 export default {
     app: {
         PORT: process.env.PORT || 8080,

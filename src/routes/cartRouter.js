@@ -1,33 +1,48 @@
-
 import BaseRouter from './BaseRouter.js';
 import cartsController from '../controllers/carts.controller.js';
-
- import { authRoles } from '../middlewares/authRoles.js';
-
-
+import { authRoles } from '../middlewares/authroles.js';
 
 class CartsRouter extends BaseRouter {
     init() {
-        this.get('/carts', ['AUTHORIZED'], cartsController.getAllCarts);
-        this.get('/carts/:cid', ['AUTHORIZED'], cartsController.getCartById);
-        this.post('/carts', ['AUTHORIZED'], cartsController.createCart);
-        this.post('/carts/:cid/products/:pid', ['AUTHORIZED'], authRoles(['USER']), cartsController.addProductToCart);
-        this.put('/carts/:cid/products/:pid', ['AUTHORIZED'], authRoles(['USER']), cartsController.updateProductQuantity);
-        this.put('/carts/:cid', ['AUTHORIZED'], authRoles(['USER']), cartsController.updateCartProducts);
-        this.delete('/carts/:cid/products/:pid', ['AUTHORIZED'], authRoles(['USER']), cartsController.removeProductFromCart);
-        this.delete('/carts/:cid', ['AUTHORIZED'], authRoles(['USER']), cartsController.clearCart);
-        this.post('/carts/:cid/purchase', ['AUTHORIZED'], authRoles(['USER']), cartsController.purchaseCart);
-
-        // Nuevas rutas con prefijo /api
-        this.get('/api/carts', ['AUTHORIZED'], cartsController.getAllCarts);
-        this.get('/api/carts/:cid', ['AUTHORIZED'], cartsController.getCartById);
-        this.post('/api/carts', ['AUTHORIZED'], cartsController.createCart);
-        this.post('/api/carts/:cid/products/:pid', ['AUTHORIZED'], authRoles(['USER']), cartsController.addProductToCart);
-        this.put('/api/carts/:cid/products/:pid', ['AUTHORIZED'], authRoles(['USER']), cartsController.updateProductQuantity);
-        this.put('/api/carts/:cid', ['AUTHORIZED'], authRoles(['USER']), cartsController.updateCartProducts);
-        this.delete('/api/carts/:cid/products/:pid', ['AUTHORIZED'], authRoles(['USER']), cartsController.removeProductFromCart);
-        this.delete('/api/carts/:cid', ['AUTHORIZED'], authRoles(['USER']), cartsController.clearCart);
-        this.post('/api/carts/:cid/purchase', ['AUTHORIZED'], authRoles(['USER']), cartsController.purchaseCart);
+        this.get('/', ['PUBLIC'], cartsController.getAllCarts);
+        this.get('/:cid', ['PUBLIC'], cartsController.getCartById);
+        this.post('/', ['PUBLIC'], cartsController.createCart);
+        this.post(
+            '/:cid/products/:pid',
+            ['PUBLIC'],
+            authRoles(['USER']),
+            cartsController.addProductToCart
+        );
+        this.put(
+            '/:cid/products/:pid',
+            ['PUBLIC'],
+            authRoles(['USER']),
+            cartsController.updateProductQuantity
+        );
+        this.put(
+            '/:cid',
+            ['PUBLIC'],
+            authRoles(['USER']),
+            cartsController.updateCartProducts
+        );
+        this.delete(
+            '/:cid/products/:pid',
+            ['PUBLIC'],
+            authRoles(['USER']),
+            cartsController.removeProductFromCart
+        );
+        this.delete(
+            '/:cid',
+            ['PUBLIC'],
+            authRoles(['USER']),
+            cartsController.clearCart
+        );
+        this.post(
+            '/:cid/purchase',
+            ['PUBLIC'],
+            authRoles(['USER']),
+            cartsController.purchaseCart
+        );
     }
 }
 
