@@ -1,15 +1,41 @@
+# Proyecto Final Backend 2
 
-# Pre-entrega de tu Proyecto final Backend 2
+## Objetivos del Proyecto
 
-## Descripción del Proyecto
+1. **Profesionalizar el servidor** desarrollado en la primera preentrega.
+2. **Aplicar una arquitectura profesional** al servidor.
+3. **Implementar prácticas** como patrones de diseño, middleware de autorización, JWT, y uso de variables de entorno.
 
-Se implementará en el proyecto ecommerce facilitado al inicio del curso un CRUD de usuarios, junto con un sistema de autorización y autenticación.
+## Implementación
 
-## Requisitos
+### 1. Middleware de Autorización y Estrategia "Current"
 
-### 1. Crear un Modelo User
+- **Sistema de autorización:**  
+  Se implementó un middleware que, en conjunto con la estrategia "current", gestiona la autorización de acceso a los endpoints.
+  - **Solo el administrador puede crear, actualizar y eliminar productos.**
+  - **Solo los usuarios pueden agregar productos a su carrito.**
 
-El modelo `User` contará con los siguientes campos:
+### 2. Modelo de Ticket y Lógica de Compra
+
+- **Modelo Ticket:**  
+  Se creó un modelo `Ticket` que contiene los siguientes campos:
+  - `Id`: Autogenerado por MongoDB.
+  - `code`: String, generado automáticamente y único.
+  - `purchase_datetime`: Fecha y hora exacta en que se formalizó la compra (similar a `created_at`).
+  - `amount`: Número, total de la compra.
+  - `purchaser`: String, correo del usuario asociado al carrito.
+
+- **Ruta `/purchase` en el Router de `Carts`:**  
+  Se implementó la ruta `/api/carts/:cid/purchase` que permite finalizar el proceso de compra. Esta ruta realiza las siguientes acciones:
+  - Verifica el stock de los productos al momento de finalizar la compra.
+  - Si el producto tiene suficiente stock, se restará la cantidad correspondiente.
+  - Si el producto no tiene suficiente stock, no se agregará al proceso de compra y se devolverá un arreglo con los ids de los productos que no pudieron procesarse.
+  - Finalmente, se genera un ticket con los datos de la compra usando el servicio de Tickets.
+  - El carrito del usuario se actualiza para contener solo los productos que no pudieron comprarse.
+
+### 3. Creación del Modelo `User`
+
+El modelo `User` cuenta con los siguientes campos:
 
 - `first_name`: String
 - `last_name`: String
@@ -19,29 +45,19 @@ El modelo `User` contará con los siguientes campos:
 - `cart`: Id con referencia a `Carts`
 - `role`: String (default: 'user')
 
-### 2. Encriptar la Contraseña
+### 4. Sistema de Autenticación
 
-Encriptar la contraseña del usuario mediante el paquete `bcrypt` utilizando el método `hashSync`.
+- **Contraseña encriptada:**  
+  Las contraseñas de los usuarios se encriptan usando `bcrypt` mediante el método `hashSync`.
 
-### 3. Estrategias de Passport
+- **Estrategias de Passport:**  
+  Se desarrollaron estrategias de Passport para trabajar con el modelo de usuarios.
 
-Desarrollar las estrategias de Passport para que funcionen con el modelo de usuarios.
+- **Login con JWT:**  
+  Implementación de un sistema de login que utiliza JWT para la autenticación.
 
-### 4. Sistema de Login con JWT
-
-Implementar un sistema de login del usuario que trabaje con JWT.
-
-### 5. Estrategia “Current”
-
-Desarrollar una estrategia “current” para extraer la cookie que contiene el token y con dicho token obtener el usuario asociado. En caso de tener el token, devolver al usuario asociado al token; caso contrario, devolver un error de Passport utilizando un extractor de cookie.
-
-### 6. Ruta /current
-
-Agregar al router `/api/sessions/` la ruta `/current`, la cual validará al usuario logueado y devolverá en una respuesta sus datos (asociados al JWT).
-
-## Formato de Entrega
-
-- Link al repositorio de GitHub con el proyecto completo, sin la carpeta de `node_modules`.
+- **Ruta `/current`:**  
+  La ruta `/api/sessions/current` valida al usuario logueado y devuelve sus datos asociados al JWT.
 
 ## Configuración del Proyecto
 
@@ -51,109 +67,61 @@ Agregar al router `/api/sessions/` la ruta `/current`, la cual validará al usua
 git clone [URL_DEL_REPOSITORIO]
 ```
 
-### 2. Instalar Dependencias
 
+### 2. Instalar Dependencias
 ```bash
 cd [NOMBRE_DEL_DIRECTORIO]
 npm install
 ```
 
-## Ejecución del Servidor
 
-Para iniciar el servidor y probar el funcionamiento, sigue estos pasos:
+### 3. Configurar Variables de Entorno
 
-### 1. Ejecutar el Servidor en el Puerto Predeterminado (8080)
-
+### 4. Ejecución del Servidor
+Iniciar el Servidor
+Para iniciar el servidor en el puerto predeterminado (8080), utiliza el siguiente comando:
 ```bash
 npm start
 ```
-
-### 2. Acceder a la Lista de Productos
-
-Abre tu navegador web y accede a la siguiente URL:
-
-```
+###  Acceder a los Endpoints
+Lista de Productos:
+```bash
 http://localhost:8080/products
 ```
+###  Productos en Tiempo Real:
 
-### 3. Acceder a la Lista de Productos en Tiempo Real
-
-Para visualizar los productos en tiempo real mediante websockets:
-
-```
+```bash
 http://localhost:8080/realtimeproducts
 ```
+### CRUD de Usuarios y Autenticación
+Crear Usuario:
+```bash
+POST /api/users
+```
+Login:
+```bash
 
-## Proceso de Testing
+POST /api/sessions/login
+```
 
-### 1. Configuración Inicial
+Verificar Usuario Actual:
+```bash
 
-Para probar las funcionalidades del proyecto, asegúrate de tener las dependencias instaladas y el servidor en ejecución.
+GET /api/sessions/current
+```
 
-### 2. CRUD de Usuarios
+4. Finalizar Compra
+```bash
+POST /api/carts/:cid/purchase
+```
 
-- **Crear Usuario**:
-  Utiliza la siguiente ruta para crear un nuevo usuario:
-  ```
-  POST /api/users
-  ```
-  Ejemplo de cuerpo de solicitud:
-  ```json
-  {
-    "first_name": "John",
-    "last_name": "Doe",
-    "email": "john.doe@example.com",
-    "age": 30,
-    "password": "password123",
-    "cart": "cartId",
-    "role": "user"
-  }
-  ```
-
-- **Obtener Usuarios**:
-  ```
-  GET /api/users
-  ```
-
-- **Actualizar Usuario**:
-  ```
-  PUT /api/users/:id
-  ```
-
-- **Eliminar Usuario**:
-  ```
-  DELETE /api/users/:id
-  ```
-
-### 3. Autenticación y Autorización
-
-- **Registro**:
-  ```
-  POST /api/sessions/register
-  ```
-
-- **Login**:
-  ```
-  POST /api/sessions/login
-  ```
-  Ejemplo de cuerpo de solicitud:
-  ```json
-  {
-    "email": "john.doe@example.com",
-    "password": "password123"
-  }
-  ```
-
-- **Verificación de Usuario Actual**:
-  ```
-  GET /api/sessions/current
-  ```
-
-## Enlaces Útiles
-
-- [Documentación de bcrypt](https://www.npmjs.com/package/bcrypt)
-- [Documentación de Passport](http://www.passportjs.org/)
-- [Documentación de JWT](https://jwt.io/)
-
-
+###  Proceso de Testing
+1. Pruebas de CRUD
+Crear, leer, actualizar y eliminar usuarios.
+2. Pruebas de Autenticación
+Registro y login de usuarios.
+Verificación del usuario autenticado con JWT.
+3. Pruebas de Compra
+Finalización de la compra y generación del ticket.
+Verificación de stock y actualización del carrito.
 
