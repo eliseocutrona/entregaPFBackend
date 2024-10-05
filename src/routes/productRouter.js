@@ -1,95 +1,43 @@
-import { Router } from 'express';
-import productDBManager from '../dao/productDBManager.js';
-import { uploader } from '../utils/multerUtil.js';
+import productsController from '../controllers/products.controller.js'; // Importa el controlador para manejar operaciones de productos
+import BaseRouter from './BaseRouter.js'; // Importa la clase BaseRouter para extenderla
+import { authRoles } from '../middlewares/authroles.js'; // Importa el middleware para la autorización de roles
 
-const router = Router();
-const ProductService = new productDBManager();
+// Define la clase ProductRouter que extiende de BaseRouter
+class ProductRouter extends BaseRouter {
+    // Método para inicializar las rutas específicas de productos
+    init() {
+        // Ruta GET para obtener todos los productos
+        this.get('/', ['PUBLIC'], productsController.getProducts);
 
-router.get('/', async (req, res) => {
-    const result = await ProductService.getAllProducts(req.query);
+        // Ruta GET para obtener un producto por ID
+        this.get('/:id', ['PUBLIC'], productsController.getProductById);
 
-    res.send({
-        status: 'success',
-        payload: result
-    });
-});
+        // Ruta POST para crear un nuevo producto, accesible solo para administradores
+        this.post('/', ['ADMIN'], authRoles(['ADMIN']), productsController.createProduct);
 
-router.get('/:pid', async (req, res) => {
+        // Ruta PUT para actualizar un producto por ID, accesible solo para administradores
+        this.put('/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.updateProduct);
 
-    try {
-        const result = await ProductService.getProductByID(req.params.pid);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
+        // Ruta DELETE para eliminar un producto por ID, accesible solo para administradores
+        this.delete('/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.deleteProduct);
+
+        // Rutas adicionales para el prefijo /api/products (duplicadas)
+        this.get('/api/products', ['PUBLIC'], productsController.getProducts);
+
+        // Ruta GET para obtener un producto por ID con el prefijo /api
+        this.get('/api/products/:id', ['PUBLIC'], productsController.getProductById);
+
+        // Ruta POST para crear un nuevo producto con el prefijo /api, accesible solo para administradores
+        this.post('/api/products', ['ADMIN'], authRoles(['ADMIN']), productsController.createProduct);
+
+        // Ruta PUT para actualizar un producto por ID con el prefijo /api, accesible solo para administradores
+        this.put('/api/products/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.updateProduct);
+
+        // Ruta DELETE para eliminar un producto por ID con el prefijo /api, accesible solo para administradores
+        this.delete('/api/products/:id', ['ADMIN'], authRoles(['ADMIN']), productsController.deleteProduct);
     }
-});
+}
 
-router.post('/', uploader.array('thumbnails', 3), async (req, res) => {
-
-    if (req.files) {
-        req.body.thumbnails = [];
-        req.files.forEach((file) => {
-            req.body.thumbnails.push(file.path);
-        });
-    }
-
-    try {
-        const result = await ProductService.createProduct(req.body);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.put('/:pid', uploader.array('thumbnails', 3), async (req, res) => {
-
-    if (req.files) {
-        req.body.thumbnails = [];
-        req.files.forEach((file) => {
-            req.body.thumbnails.push(file.filename);
-        });
-    }
-
-    try {
-        const result = await ProductService.updateProduct(req.params.pid, req.body);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.delete('/:pid', async (req, res) => {
-
-    try {
-        const result = await ProductService.deleteProduct(req.params.pid);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-export default router;
+// Crea una instancia de ProductRouter y exporta el router configurado
+const productsRouter = new ProductRouter();
+export default productsRouter.getRouter();

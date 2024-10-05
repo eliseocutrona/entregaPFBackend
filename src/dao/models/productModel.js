@@ -1,48 +1,32 @@
-// Importamos Mongoose y el plugin de paginación de Mongoose
-import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2";
+import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-// Definimos el nombre de la colección de productos en la base de datos
-const productCollection = "products";
+// Define el nombre de la colección en la base de datos
+const collection = 'Products';
 
-// Definimos el esquema de productos
-const productSchema = mongoose.Schema({
-    title: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    description: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    code: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    price: {
-        type: Number,     // Tipo de dato: número
-        require: true     // Campo requerido
-    },
-    stock: {
-        type: Number,     // Tipo de dato: número
-        require: true     // Campo requerido
-    },
-    category: {
-        type: String,     // Tipo de dato: cadena de texto
-        require: true     // Campo requerido
-    },
-    thumbnails: {
-        type: Array,      // Tipo de dato: arreglo
-        require: false,   // Campo no requerido
-        default: []       // Valor por defecto: arreglo vacío
-    }
+// Define el esquema para las miniaturas de los productos
+const thumbnailSchema = new mongoose.Schema({
+  mimetype: String, // Tipo MIME de la imagen
+  path: String, // Ruta de la imagen
+  main: Boolean, // Indica si la miniatura es la principal
 });
 
-// Añadimos el plugin de paginación al esquema de productos
-productSchema.plugin(mongoosePaginate);
+// Define el esquema principal para los productos
+const schema = new mongoose.Schema({
+  title: { type: String, required: true }, // Título del producto, obligatorio
+  description: { type: String, required: true }, // Descripción del producto, obligatoria
+  code: { type: String, required: true, unique: true }, // Código único del producto, obligatorio y único
+  price: { type: Number, required: true }, // Precio del producto, obligatorio
+  stock: { type: Number, required: true }, // Cantidad en stock, obligatoria
+  category: { type: String, required: true }, // Categoría del producto, obligatoria
+  thumbnails: [thumbnailSchema], // Array de miniaturas usando el esquema 'thumbnailSchema'
+});
 
-// Creamos el modelo de productos usando el esquema y la colección definidos
-const ProductModel = mongoose.model(productCollection, productSchema);
+// Añade la funcionalidad de paginación al esquema
+schema.plugin(mongoosePaginate);
 
-// Exportamos el modelo de productos para usarlo en otras partes del proyecto
-export default ProductModel;
+// Crea el modelo de producto basado en el esquema
+const productModel = mongoose.model(collection, schema);
+
+// Exporta el modelo para usarlo en otras partes de la aplicación
+export default productModel;

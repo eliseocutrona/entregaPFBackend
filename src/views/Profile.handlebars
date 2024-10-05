@@ -1,13 +1,26 @@
-<h1>Ingresa</h1>
+{{main}}
 
-<form id="loginForm">
-    <label>Email</label>
-    <input name="email">
-    <br/>
-    <label>Contraseña</label>
-    <input name="password">
-    <br/>
-    <input type="submit">
-</form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tu Sitio Web</title>
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<div class="container">
+    <h1 class="profile-title">Perfil del Usuario</h1>
+    
+    <div class="profile-card">
+        <div class="profile-info">
+            <p><strong>Email:</strong> {{user.email}}</p>
+            <p><strong>Nombre:</strong> {{user.name}}</p>
+            <p><strong>Rol:</strong> {{user.role}}</p>
+            <p><strong>Fecha de Registro:</strong> {{user.registrationDate}}</p>
+        </div>
 
-<script src="/js/login.js"></script>
+        <a href="/api/sessions/logout" class="button" id="button-logout">Cerrar Sesión</a>
+    </div>
+</div>
+
+<script src="/js/profile.js"></script>

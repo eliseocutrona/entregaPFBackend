@@ -1,0 +1,126 @@
+/* Estilos globales */
+* {
+    background-color: #f4f4f4; /* Fondo claro para toda la página */
+    color: #333; /* Color de texto oscuro para contraste */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Fuente legible */
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Título de la página */
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #ff5722; /* Color naranja para el título */
+}
+
+/* Estilos del formulario */
+#form-container {
+    background-color: #ffffff; /* Fondo blanco para el formulario */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 2rem;
+    margin-bottom: 2rem; /* Espaciado inferior para separar del contenido siguiente */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+#productsForm input[type="text"], 
+#productsForm input[type="number"] {
+    width: calc(100% - 22px); /* Ajuste para padding y border */
+    padding: 12px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd; /* Borde gris claro */
+}
+
+#productsForm input[type="file"] {
+    display: none; /* Ocultamos el input de archivo por defecto */
+}
+
+#productsForm .custom-file-upload {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 5px;
+    background-color: #ff9800; /* Naranja para el botón de subir archivos */
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd; /* Borde gris claro */
+    margin-bottom: 1rem;
+}
+
+#productsForm button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    background-color: #4caf50; /* Verde para el botón de añadir producto */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#productsForm button:hover {
+    background-color: #388e3c; /* Verde oscuro para el hover */
+    transform: scale(1.05); /* Efecto de elevación al pasar el mouse */
+}
+
+/* Estilos de los productos */
+#products-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 4 columnas de igual tamaño */
+    gap: 1rem; /* Espaciado entre tarjetas */
+    justify-content: center; /* Centra las tarjetas en el contenedor */
+}
+
+.card {
+    background-color: #ffffff; /* Fondo blanco para las tarjetas de productos */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 10px; /* Bordes redondeados más amplios */
+    padding: 1.5rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.03); /* Efecto de zoom leve al pasar el mouse */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada en hover */
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #ff5722; /* Color naranja para el título del producto */
+}
+
+.card p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem; /* Tamaño de fuente ligeramente más pequeño */
+}
+
+.card button.delete-btn {
+    background-color: #f44336; /* Rojo para el botón de eliminar */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card button.delete-btn:hover {
+    background-color: #d32f2f; /* Rojo oscuro para el hover */
+    transform: scale(1.05); /* Efecto de elevación al pasar el mouse */
+}

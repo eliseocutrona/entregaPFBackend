@@ -1,41 +1,57 @@
-Segunda preentrega Websockets
+Pre-entrega de tu Proyecto final Backend 2
+
 
 
 Consigna
 
-Configurar nuestro proyecto para que trabaje con Handlebars y websocket.
+Se implementará en el proyecto ecommerce facilitado al inicio del curso un CRUD de usuarios, junto con un sistema de Autorización y Autenticación
 
 Aspectos a incluir
 
-Configurar el servidor para integrar el motor de plantillas Handlebars e instalar un servidor de socket.io al mismo.
-Crear una vista “index.handlebars” la cual contenga una lista de todos los productos agregados hasta el momento y que se encuentre en la ruta “/products”
+Se debe entregar
+
+Crear un modelo User el cual contará con los campos:
+first_name:String,
+last_name:String,
+email:String (único)
+age:Number,
+password:String(Hash)
+cart:Id con referencia a Carts
+role:String(default:’user’)
+Encriptar la contraseña del usuario mediante el paquete bcrypt (Utilizar el método “hashSync”).
 
 
-Además, crear una vista “realTimeProducts.handlebars”, la cual estará en la ruta “/realtimeproducts” en nuestro views router, ésta contendrá la misma lista de productos, sin embargo, ésta trabajará sólo con websockets.
-Al trabajar con websockets, cada vez que creemos un producto nuevo, o bien cada vez que eliminemos un producto, se debe actualizar automáticamente en dicha vista la lista.
+Desarrollar las estrategias de Passport para que funcionen con este modelo de usuarios
+Implementar un sistema de login del usuario que trabaje con jwt. 
 
+
+Se debe entregar
+
+
+Desarrollar una estrategia “current” para extraer la cookie que contiene el token y con dicho token obtener el usuario asociado. En caso de tener el token, devolver al usuario asociado al token, caso contrario devolver un error de passport, utilizar un extractor de cookie.
+Agregar al router /api/sessions/ la ruta /current, la cual validará al usuario logueado y devolverá en una respuesta sus datos (Asociados al JWT).
+
+Formato
+
+Link al repositorio de Github con el proyecto completo, sin la carpeta de Node_modules.
 
 Sugerencias
 
-Ya que la conexión entre una consulta HTTP y websocket no está contemplada dentro de la clase. Se recomienda que para la creación de un producto se creen un formulario simple y para su eliminación que se añada un botón “Eliminar” en cada producto en la vista  realTimeProducts.handlebars. Para que el contenido se gestione desde websockets y no HTTP.
-Para la creación del producto no es necesario añadir el dato “thumbnails”. Es decir, el envío de archivos desde el navegador.
+Link al video donde se explica.
 
 
-Si se desea hacer con HTTP, deberás buscar la forma de utilizar el servidor de Sockets dentro de la petición POST.
 
+Proceso de Testing
 
-Formato de entrega
-Link al repositorio de Github, el cual debe contar con todo el proyecto.
-No incluir node_modules
+Login por formulario
 
-Websockets - Proceso de Testing
-
-Se instalará y correrá el servidor en el puerto indicado.
-El servidor debe levantarse sin problema.
-Se abrirá la ruta raíz
-Debe visualizarse el contenido de la vista index.handlebars
-No se debe activar el websocket aún.
-Se buscará en la url del navegador la ruta “/realtimeproducts”.
-Se corroborará que el servidor haya conectado con el cliente, en la consola del servidor deberá mostrarse un mensaje de “cliente conectado”.
-Se debe mostrar la lista de productos y se corroborará que se esté enviando desde websocket.
+Al cargar el proyecto, éste deberá comenzar en la pantalla de login
+Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” 
+El proceso de registro deberá guardar en la base de datos al usuario
+Se regresará al proceso de login y se colocarán las credenciales de manera incorrecta, esto para probar que no se pueda avanzar a la siguiente pantalla.
+Posteriormente, se colocarán las credenciales de manera correcta, esto para corroborar que se cree una sesión correctamente y que se haga una redirección a la vista de productos.
+La vista de productos tendrá en una parte de arriba de la página el mensaje “Bienvenido” seguido de los datos del usuario que se haya logueado (NO mostrar password). Es importante que se visualice el “rol” para ver que aparezca “usuario” o “user”
+Se presionará el botón de logout y se destruirá la sesión, notando cómo nos redirige a login.
+Se ingresarán las credenciales específicas de admin indicadas en las diapositivas, el login debe redirigir correctamente y mostrar en los datos del rol: “admin” haciendo referencia a la correcta gestión de roles. 
+Se revisará que el admin NO viva en base de datos, sino que sea una validación que se haga de manera interna en el código.
 

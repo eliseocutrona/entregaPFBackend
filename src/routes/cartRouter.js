@@ -1,121 +1,70 @@
-import { Router } from 'express';
-import productDBManager from '../dao/productDBManager.js';
-import { cartDBManager } from '../dao/cartDBManager.js';
+import BaseRouter from './BaseRouter.js'; // Importa la clase BaseRouter para extenderla
+import cartsController from '../controllers/carts.controller.js'; // Importa el controlador para manejar las operaciones de carrito
+import { authRoles } from '../middlewares/authroles.js'; // Importa el middleware para la autorización de roles
 
-const router = Router();
-const ProductService = new productDBManager();
-const CartService = new cartDBManager(ProductService);
+// Define la clase CartsRouter que extiende de BaseRouter
+class CartsRouter extends BaseRouter {
+    // Método para inicializar las rutas específicas del carrito
+    init() {
+        // Ruta GET para obtener todos los carritos
+        this.get('/', ['PUBLIC'], cartsController.getAllCarts);
 
-router.get('/:cid', async (req, res) => {
+        // Ruta GET para obtener un carrito por ID
+        this.get('/:cid', ['PUBLIC'], cartsController.getCartById);
 
-    try {
-        const result = await CartService.getProductsFromCartByID(req.params.cid);
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
+        // Ruta POST para crear un nuevo carrito
+        this.post('/', ['PUBLIC'], cartsController.createCart);
+
+        // Ruta POST para agregar un producto a un carrito específico
+        this.post(
+            '/:cid/products/:pid',
+            ['PUBLIC'], // Políticas públicas (sin restricciones)
+            authRoles(['USER']), // Asegura que el usuario tenga el rol 'USER'
+            cartsController.addProductToCart // Controlador para agregar el producto
+        );
+
+        // Ruta PUT para actualizar la cantidad de un producto en un carrito
+        this.put(
+            '/:cid/products/:pid',
+            ['PUBLIC'], // Políticas públicas
+            authRoles(['USER']), // Asegura que el usuario tenga el rol 'USER'
+            cartsController.updateProductQuantity // Controlador para actualizar la cantidad del producto
+        );
+
+        // Ruta PUT para actualizar los productos de un carrito específico
+        this.put(
+            '/:cid',
+            ['PUBLIC'], // Políticas públicas
+            authRoles(['USER']), // Asegura que el usuario tenga el rol 'USER'
+            cartsController.updateCartProducts // Controlador para actualizar los productos del carrito
+        );
+
+        // Ruta DELETE para eliminar un producto de un carrito específico
+        this.delete(
+            '/:cid/products/:pid',
+            ['PUBLIC'], // Políticas públicas
+            authRoles(['USER']), // Asegura que el usuario tenga el rol 'USER'
+            cartsController.removeProductFromCart // Controlador para eliminar el producto del carrito
+        );
+
+        // Ruta DELETE para vaciar un carrito específico
+        this.delete(
+            '/:cid',
+            ['PUBLIC'], // Políticas públicas
+            authRoles(['USER']), // Asegura que el usuario tenga el rol 'USER'
+            cartsController.clearCart // Controlador para vaciar el carrito
+        );
+
+        // Ruta POST para realizar la compra de los productos en un carrito
+        this.post(
+            '/:cid/purchase',
+            ['PUBLIC'], // Políticas públicas
+            authRoles(['USER']), // Asegura que el usuario tenga el rol 'USER'
+            cartsController.purchaseCart // Controlador para realizar la compra del carrito
+        );
     }
-});
+}
 
-router.post('/', async (req, res) => {
-
-    try {
-        const result = await CartService.createCart();
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.post('/:cid/product/:pid', async (req, res) => {
-
-    try {
-        const result = await CartService.addProductByID(req.params.cid, req.params.pid)
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.delete('/:cid/product/:pid', async (req, res) => {
-
-    try {
-        const result = await CartService.deleteProductByID(req.params.cid, req.params.pid)
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.put('/:cid', async (req, res) => {
-
-    try {
-        const result = await CartService.updateAllProducts(req.params.cid, req.body.products)
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.put('/:cid/product/:pid', async (req, res) => {
-
-    try {
-        const result = await CartService.updateProductByID(req.params.cid, req.params.pid, req.body.quantity)
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-router.delete('/:cid', async (req, res) => {
-
-    try {
-        const result = await CartService.deleteAllProducts(req.params.cid)
-        res.send({
-            status: 'success',
-            payload: result
-        });
-    } catch (error) {
-        res.status(400).send({
-            status: 'error',
-            message: error.message
-        });
-    }
-});
-
-export default router;
+// Crea una instancia de CartsRouter y exporta el router configurado
+const cartsRouter = new CartsRouter();
+export default cartsRouter.getRouter();

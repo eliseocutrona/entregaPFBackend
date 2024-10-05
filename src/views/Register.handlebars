@@ -1,22 +1,32 @@
-<h1>Regístrate</h1>
-
-<form id="registerForm">
-    <label>Nombre</label>
-    <input name="firstName">
-    <br/>
-    <label>Apellido</label>
-    <input name="lastName">
-    <br/>
-    <label>Email</label>
-    <input name="email">
-    <br/>
-    <label>Fecha de nacimiento</label>
-    <input type="date" name="birthDate">
-    <br/>
-    <label>Contraseña</label>
-    <input name="password">
-    <br/>
-    <input type="submit">
-</form>
-
-<script src="/js/register.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="/css/register.css"> <!-- Asegúrate de que esta ruta es correcta -->
+</head>
+<body>
+    {{main}}
+    <h1>Regístrate</h1>
+    <div class="auth-form-container">
+        <form id="registerForm" class="auth-form" action="/register" method="POST">
+            <label>Nombre</label>
+            <input name="firstName" type="text" placeholder="Ingrese su nombre" required>
+            <label>Apellido</label>
+            <input name="lastName" type="text" placeholder="Ingrese su apellido" required>
+            <label>Email</label>
+            <input name="email" type="email" placeholder="Ingrese su correo electrónico" required>
+            <label>Edad</label>
+            <input name="age" type="number" placeholder="Ingrese su edad" required>
+            <label>Contraseña</label>
+            <input name="password" type="password" placeholder="Ingrese su contraseña" required>
+            <div class="button-container">
+                <button type="submit">Registrarse</button>
+                <button type="button" class="login-button" onclick="window.location.href='/login'">Ingresa</button>
+            </div>
+        </form>
+    </div>
+    <script src="/js/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+/* Estilos globales */
+* {
+    background-color: #f4f4f4; /* Fondo claro para toda la página */
+    color: #333; /* Color de texto oscuro para contraste */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Fuente legible */
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Título del formulario */
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #ff5722; /* Color naranja para el título */
+}
+
+/* Contenedor del formulario de autenticación */
+.auth-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 4rem); /* Ocupa el alto de la pantalla menos el espaciado */
+}
+
+/* Estilos del formulario */
+.auth-form {
+    background-color: #ffffff; /* Fondo blanco para el formulario */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    width: 100%;
+    max-width: 400px; /* Ancho máximo del formulario */
+}
+
+/* Etiquetas de entrada */
+.auth-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+/* Campos de entrada */
+.auth-form input[type="email"], 
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd; /* Borde gris claro */
+}
+
+/* Contenedor de botones */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem; /* Espaciado entre los botones */
+}
+
+/* Botones */
+button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    background-color: #4caf50; /* Verde para el botón de acción principal */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #388e3c; /* Verde oscuro para el hover */
+    transform: scale(1.05); /* Efecto de elevación al pasar el mouse */
+}
+
+/* Botón de registro */
+.register-button {
+    background-color: #ff9800; /* Naranja para el botón de registro */
+}
+
+.register-button:hover {
+    background-color: #e68900; /* Naranja oscuro para el hover */
+}
+
+/* Espaciado en el formulario */
+.auth-form br {
+    display: none; /* Oculta los saltos de línea innecesarios */
+}
+
+
+/* Estilos globales */
+* {
+    background-color: #f4f4f4; /* Fondo claro para toda la página */
+    color: #333; /* Color de texto oscuro para contraste */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Fuente legible */
+}
+
+/* Encabezado */
+.home-header {
+    background-color: #4caf50; /* Verde para el encabezado */
+    color: white;
+    padding: 1rem 0;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.home-nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.home-cta-button {
+    background-color: #ffffff; /* Fondo blanco para botones */
+    color: #4caf50; /* Color verde para texto */
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid #4caf50; /* Borde verde */
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.home-cta-button:hover {
+    background-color: #4caf50; /* Fondo verde para hover */
+    color: white; /* Texto blanco para hover */
+}
+
+/* Contenedor principal */
+.home-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Sección de introducción */
+.intro-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.intro-section p {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Sección de llamada a la acción */
+.home-cta-section {
+    text-align: center;
+}
+
+.home-cta-section .home-cta-button {
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+/* Pie de página */
+.home-footer {
+    background-color: #4caf50; /* Verde para el pie de página */
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil en el pie de página */
+}

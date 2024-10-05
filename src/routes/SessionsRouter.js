@@ -1,24 +1,41 @@
-import jwt from 'jsonwebtoken';
-
-import { passportCall } from "../middlewares/passportCall.js";
-import BaseRouter from "./BaseRouter.js";
+import BaseRouter from './BaseRouter.js';
+import { passportCall } from '../middlewares/passportCall.js';
+import { executePolicies } from '../middlewares/policies.js';
+import sessionsController from '../controllers/sessions.controller.js';
 
 class SessionsRouter extends BaseRouter {
-    init(){
-        this.post('/register',['PUBLIC'],passportCall('register'),(req,res)=>{
-          res.sendSuccess("Registered"); 
-        })
-        this.post('/login',['PUBLIC'],passportCall('login'),(req,res)=>{
-            console.log(req.user);
-            //Para JWT, ahora yo tengo la responsabilidad de generar mi propia sesión.
-            const sessionUser = {
-                name:`${req.user.firstName} ${req.user.lastName}`,
-                role:req.user.role,
-                id:req.user._id
-            }
-            const token = jwt.sign(sessionUser,'secretitoshhhhh',{expiresIn:'1d'});
-            res.cookie('tokencito',token).send({status:"success",message:"logged in"});
-        })
+    init() {
+        // Ruta de registro (Pública, sin autenticación requerida)
+        this.post(
+            '/register',
+            ['PUBLIC'],
+            sessionsController.register // Callback para manejar el registro
+        );
+
+        // Ruta de inicio de sesión (Pública, sin autenticación requerida)
+        this.post(
+            '/login',
+            ['PUBLIC'],
+            sessionsController.login // Callback para manejar el inicio de sesión
+        );
+
+        // Ruta para obtener datos del usuario actual (Requiere autenticación de usuario)
+        this.get(
+            '/current',
+            ['USER'],
+            passportCall('current'), // Middleware para autenticación
+            executePolicies(['USER']), // Middleware para políticas
+            sessionsController.current // Callback para manejar la solicitud
+        );
+
+        // Ruta para cerrar sesión (Requiere autenticación de usuario)
+        this.get(
+            '/logout',
+            ['USER'],
+            passportCall('current'), // Middleware para autenticación
+            executePolicies(['USER']), // Middleware para políticas
+            sessionsController.logout // Callback para manejar la solicitud
+        );
     }
 }
 

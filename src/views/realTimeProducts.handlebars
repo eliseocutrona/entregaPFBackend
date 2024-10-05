@@ -1,46 +1,47 @@
-<div class="box">
-    <h1>Productos</h1>
-    <hr>
-    <div class="products-form">
-        <h2>Crear Producto</h2>
-        <form>
-            <label for="title">Título</label>
-            <input name="title" id="title" type="text">
+<!DOCTYPE html>
+{{ main}}
 
-            <label for="description">Descripción</label>
-            <input name="description" id="description" type="text">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tu Sitio Web</title>
+    <link rel="stylesheet" href="/css/realTimeProducts.css">
+</head>
 
-            <label for="code">Código</label>
-            <input name="code" id="code" type="text">
-
-            <label for="price">Precio</label>
-            <input name="price" id="price" type="number">
-
-            <label for="stock">Stock</label>
-            <input name="stock" id="stock" type="number">
-
-            <label for="category">Categoria</label>
-            <input name="category" id="category" type="text">
-
-            <button id="button-create" onclick="createProduct(event)">Crear</button>
-        </form>
+<h1>Real-Time Product List</h1>
+<div class="container">
+  <!-- Formulario para agregar nuevos productos -->
+  <div id="form-container">
+    <form id="productsForm">
+      <input type="text" id="title" name="title" placeholder="Title" required>
+      <input type="text" id="description" name="description" placeholder="Description" required>
+      <input type="text" id="code" name="code" placeholder="Code" required>
+      <input type="number" id="price" name="price" placeholder="Price" required>
+      <input type="number" id="stock" name="stock" placeholder="Stock" required>
+      <input type="text" id="category" name="category" placeholder="Category" required>
+      <input type="file" id="thumbnails" name="thumbnails" multiple style="display: none;">
+      <label for="thumbnails" class="custom-file-upload">Choose Files</label>
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+  <!-- Contenedor para mostrar productos -->
+  <div id="products-container">
+    <div id="products-list">
+      {{#each products}}
+      <div class="card" id="product-{{this.id}}" s>
+        <h2>{{this.title}}</h2>
+        <p>{{this.description}}</p>
+        <p><strong>Price:</strong> ${{this.price}}</p>
+        <p><strong>Stock:</strong> {{this.stock}}</p>
+        <p><strong>Code:</strong> {{this.code}}</p>
+        <p><strong>Category:</strong> {{this.category}}</p>
+        <button class="delete-btn" data-id="{{this.id}}">Delete</button>
+      </div>
+      {{/each}}
     </div>
-
-    <hr>
-
-    <div class="products-box">
-        {{#each products}}
-            <div class="product-card">
-                <h3>{{this.title}}</h3>
-                <hr>
-                <p>Categoria: {{this.category}}</p>
-                <p>Descripción: {{this.description}}</p>
-                <p>Precio: $ {{this.price}}</p>
-                <button id="button-delete" onclick="deleteProduct('{{this._id}}')">Eliminar</button>
-            </div>
-        {{/each}}
-    </div>
+  </div>
 </div>
-
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/realTimeProducts.js"></script>

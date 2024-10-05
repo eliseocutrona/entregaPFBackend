@@ -1,26 +1,32 @@
 import mongoose from 'mongoose';
 
-// Definición del nombre de la colección en la base de datos
-const cartCollection = 'carts';
+// Define el nombre de la colección en la base de datos
+const collection = 'Carts';
 
-// Definición del esquema de Mongoose para el modelo Cart
-const cartSchema = new mongoose.Schema({
-    products: {
-        type: [
-            {
-                product: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "products" // Referencia al modelo 'products'
-                },
-                quantity: {
-                    type: Number,
-                    default: 1 // Valor por defecto para la cantidad
-                }
-            }
-        ],
-        default: [] // Valor por defecto para el campo 'products'
-    }
+// Define el esquema para los carritos
+const schema = new mongoose.Schema({
+  products: [
+    {
+      product: {
+        type: mongoose.SchemaTypes.ObjectId, // Tipo de dato para el ID del producto
+        ref: 'Products', // Referencia al modelo 'Products'
+        required: true, // Campo obligatorio
+      },
+      quantity: {
+        type: Number, // Tipo de dato para la cantidad del producto
+        required: true, // Campo obligatorio
+      },
+    },
+  ]
+}, { timestamps: true }); // Añade campos de timestamps (createdAt y updatedAt)
+
+// Middleware para poblar el campo 'products.product' en las consultas
+schema.pre(['find', 'findOne', 'findById'], function () {
+  this.populate('products.product');
 });
 
-// Creación del modelo Cart utilizando el esquema definido
-export const cartModel = mongoose.model(cartCollection, cartSchema);
+// Crea el modelo de carrito basado en el esquema
+const cartModel = mongoose.model(collection, schema);
+
+// Exporta el modelo para usarlo en otras partes de la aplicación
+export default cartModel;

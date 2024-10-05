@@ -1,1 +1,39 @@
-<h1>¡Todo listo para trabajar!</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tu Sitio Web</title>
+    <link rel="stylesheet" href="/css/sesion.css">
+</head>
+<body>
+    {{main}}
+
+    <header class="home-header">
+        <div class="header-container">
+            <h1 class="header-title">¡Bienvenido a Tu Sitio Web!</h1>
+            <nav class="home-nav">
+                <a href="/login" class="home-cta-button">Iniciar sesión</a>
+                <a href="/register" class="home-cta-button">Registrarse</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="home-container">
+        <main>
+            <section class="intro-section">
+                <p>Explora nuestros productos y aprovecha nuestras ofertas exclusivas.</p>
+                <section class="home-cta-section">
+                    <a href="/products" class="home-cta-button">Ver productos</a>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <footer class="home-footer">
+        <p>&copy; 2024 Tu Sitio Web. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/js/home.js"></script>
+</body>
+</html>
